@@ -1,10 +1,16 @@
-public class Main {
+package service;
 
-    public static void main(String[] args) {
+import manager.TaskManager;
+import objects.Epic;
+import objects.Subtask;
+import objects.Task;
+import enums.TaskStatus;
 
-        System.out.println("Поехали!");
+public class TestDataAndMethods {
+
+    private TaskManager generateTasksForTest() {
+
         TaskManager manager = new TaskManager();
-
         Task task1 = new Task("таск1", "таск1 дескрипшн");
         Task task2 = new Task("таск2", "таск2 дескрипшн");
         Task task3 = new Task("таск3", "таск3 дескрипшн");
@@ -37,7 +43,11 @@ public class Main {
         int subtask5id = manager.createSubTask(subtask5, epic2);
         int subtask6id = manager.createSubTask(subtask6, epic2);
         int subtask7id = manager.createSubTask(subtask7, epic2);
+        return manager;
+    }
 
+    public void test1() {
+        TaskManager manager = generateTasksForTest();
         manager.printAllEpics();
         manager.printAllTasks();
         manager.printAllSubTasks();
@@ -84,18 +94,18 @@ public class Main {
         manager.printAllTasks();  // распечатаем таски
 
         System.out.println("проверяем обновление статуса для эпика'");
-        subtask5.setStatus(TaskStatus.IN_PROGRESS); // меняем статус одной из сабтаск на IN_PROGRESS
+        manager.getTaskById(5).setStatus(TaskStatus.IN_PROGRESS); // меняем статус одной из сабтаск на IN_PROGRESS
         manager.updateEpicStatus(6);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
-        subtask5.setStatus(TaskStatus.NEW); // меняем статус сабтаски снова на New
+        manager.getTaskById(13).setStatus(TaskStatus.NEW); // меняем статус сабтаски снова на New
         manager.updateEpicStatus(6);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
 
-        subtask5.setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE для эпика с bl= 6
-        subtask6.setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика с bl= 6
-        subtask7.setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика с bl= 6
+        manager.getTaskById(13).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE для эпика с bl= 6
+        manager.getTaskById(14).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика с bl= 6
+        manager.getTaskById(15).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика с bl= 6
         manager.updateEpicStatus(6);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски

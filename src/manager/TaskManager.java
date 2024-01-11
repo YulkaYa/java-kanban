@@ -1,13 +1,21 @@
+package manager;
+
+import objects.Epic;
+import objects.Subtask;
+import objects.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import enums.TaskStatus;
+
 public class TaskManager {
     private int taskId = 0;
 
-    private HashMap<Integer, Task> mapOfTasks = new HashMap<>();
-    private HashMap<Integer, Subtask> mapOfSubtasks = new HashMap<>();
-    private HashMap<Integer, Epic> mapOfEpics = new HashMap<>();
+    private final HashMap<Integer, Task> mapOfTasks = new HashMap<>();
+    private final HashMap<Integer, Subtask> mapOfSubtasks = new HashMap<>();
+    private final HashMap<Integer, Epic> mapOfEpics = new HashMap<>();
 
     /*    d. Создание. Сам объект должен передаваться в качестве параметра.
         с типом Task*/
@@ -37,7 +45,6 @@ public class TaskManager {
         mapOfEpics.put(taskId, epic); // сохраняем эпик в список всех эпиков
         return taskId;
     }
-
 
     /*a. Получение списка всех задач
     (Task)*/
@@ -251,5 +258,3 @@ public class TaskManager {
         System.out.println(getAllTasks());
     }
 }
-
-

@@ -1,3 +1,4 @@
+
 # java-kanban
 Repository for homework project.
 
@@ -8,13 +9,16 @@ Repository for homework project.
 
 ### Список файлов:
 
-- Main.java
-- TaskStatus.java  (Список возможных статусов задач)
-- TaskManager.java (Реализация логики хранения задач и работы с ними)
-- Task.java (Класс задач с типом "Задача")
-- Subtask.java (Класс задач с типом "Подзадач")
-- README.md
-- Epic.java (Класс задач с типом "Эпик")
+| Пакет |Файл |Описание |
+|--|--|--|
+| service | Main.java   |-|
+| service |TestDataAndMethods.java |Данные и тесты для проверки проекта|
+| enums|TaskStatus.java |Список возможных статусов задач|
+| manager|TaskManager.java |Реализация логики хранения задач и работы с ними|
+| objects| Task.java | Класс задач с типом "Задача"  |
+| objects|Subtask.java  | Класс задач с типом "Подзадач"  |
+| objects|objects.Epic.java  | Класс задач с типом "Эпик" |
+| -|README.md  |описание проекта|
 
 ### Автор:
 Юлия А.

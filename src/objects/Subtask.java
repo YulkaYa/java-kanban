@@ -1,7 +1,9 @@
+package objects;
+
 public class Subtask extends Task {
     private int epicId;
 
-    Subtask(String name, String description) {
+    public Subtask(String name, String description) {
         super(name, description);
     }
 
@@ -16,11 +18,11 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return "\n Subtask{" +
-                "id=" + taskId +
-                ", epicId=" + epicId +
-                ", name=" + name + " " +
-                ", description=" + description + " " +
-                ", status=" + status +
+                "id=" + this.getTaskId() +
+                ", epicId=" + this.getEpicId() +
+                ", name=" + this.getName() + " " +
+                ", description=" + this.getDescription() + " " +
+                ", status=" + this.getStatus() +
                 '}';
     }
 }

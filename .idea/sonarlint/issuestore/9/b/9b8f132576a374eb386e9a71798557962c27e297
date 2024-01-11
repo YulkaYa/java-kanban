@@ -1,0 +1,18 @@
+
+
+java:S13190"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(Ù¡øŒ8”„Æ©Ï1
+
+java:S1319;"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(Öº£8”„Æ©Ï1
+
+java:S1319F"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ÑÕÂş8”„Æ©Ï1
+’
+java:S1319h"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ÖğÜÿÿÿÿÿ8”„Æ©Ï1
+7
+java:S1220""Move this file to a named package.8”„Æ©Ï1
+t
+java:S3776r"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(ò€ÉÏşÿÿÿÿ8´„Æ©Ï1
+>	java:S131t""Add a default case to this switch.(¡„€8´„Æ©Ï1
+?	java:S131Ù""Add a default case to this switch.(¡„€8Ã„Æ©Ï1
+M	java:S106÷"+Replace this use of System.out by a logger.(…ã¿ÿÿÿÿÿ8Ã„Æ©Ï1
+M	java:S106û"+Replace this use of System.out by a logger.(ïŠ¯Óøÿÿÿÿ8Ã„Æ©Ï1
+M	java:S106ÿ"+Replace this use of System.out by a logger.(µ‹É©ÿÿÿÿÿ8Ã„Æ©Ï1
