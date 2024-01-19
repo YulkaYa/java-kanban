@@ -9,16 +9,22 @@ Repository for homework project.
 
 ### Список файлов:
 
-| Пакет |Файл |Описание |
-|--|--|--|
-| service | Main.java   |-|
-| service |TestDataAndMethods.java |Данные и тесты для проверки проекта|
-| enums|TaskStatus.java |Список возможных статусов задач|
-| manager|TaskManager.java |Реализация логики хранения задач и работы с ними|
-| objects| Task.java | Класс задач с типом "Задача"  |
-| objects|Subtask.java  | Класс задач с типом "Подзадач"  |
-| objects|objects.Epic.java  | Класс задач с типом "Эпик" |
-| -|README.md  |описание проекта|
+| Пакет   |Файл | Описание                                                                    |
+|---------|--|-----------------------------------------------------------------------------|
+| test    |TestDataAndMethods.java | Данные и тесты для проверки проекта                                         |
+| enums   |TaskStatus.java | Список возможных статусов задач                                             |
+| manager |TaskManager.java | Интерфейс менеджеров задач                                                  |
+| manager    |InMemoryTaskManager.java  | реализация TaskManager для менеджера, хранящего задачи в оперативной памяти |
+| objects | Task.java | Класс задач с типом "Задача"                                                |
+| objects |Subtask.java  | Класс задач с типом "Подзадач"                                              |
+| objects |objects.Epic.java  | Класс задач с типом "Эпик"                                                  |
+| -       |README.md  | описание проекта                                                            |
+| -       |Main.java | -                                                                           |
+| service |Managers.java  | утилитарный класс для создания менеджеров задач и истории                   |
+| history |HistoryManager.java | Интерфейс менеджеров истории просмотров задач                               |
+| history |InMemoryHistoryManager.java | Реализация HistoryManager - хранение истории просмотров в оперативной памяти |
+
+
 
 ### Автор:
 Юлия А.
