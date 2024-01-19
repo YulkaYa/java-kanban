@@ -1,5 +1,6 @@
 package service;
 
+import manager.InMemoryTaskManager;
 import manager.TaskManager;
 import objects.Epic;
 import objects.Subtask;
@@ -10,12 +11,12 @@ public class TestDataAndMethods {
 
     private TaskManager generateTasksForTest() {
 
-        TaskManager manager = new TaskManager();
+        TaskManager manager = new InMemoryTaskManager();
         Task task1 = new Task("таск1", "таск1 дескрипшн");
         Task task2 = new Task("таск2", "таск2 дескрипшн");
         Task task3 = new Task("таск3", "таск3 дескрипшн");
         Task task4 = new Task("таск4", "таск4 дескрипшн");
-        int task1id = manager.createTask(task1);
+         int task1id = manager.createTask(task1);
         int task2id = manager.createTask(task2);
         int task3id = manager.createTask(task3);
         int task4id = manager.createTask(task4);

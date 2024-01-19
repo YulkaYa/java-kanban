@@ -1,5 +1,75 @@
 
+j
+java:S11921"MDefine a constant instead of duplicating this literal "------------" 4 times.(áñÁ·8™ãÖ‹Ò1
 7
-java:S1220""Move this file to a named package.8ƒö¦©Ï1
-
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Çµí‘8ìóñÌÏ1
+java:S1220""Move this file to a named package.8™ãÖ‹Ò1
+`
+java:S1854+">Remove this useless assignment to local variable "subtask7id".(“Ì›­øÿÿÿÿ8™ãÖ‹Ò1
+[
+java:S1854*">Remove this useless assignment to local variable "subtask6id".(±Â“º8™ãÖ‹Ò1
+`
+java:S1854)">Remove this useless assignment to local variable "subtask5id".(ÓÀÿÿÿÿÿ8™ãÖ‹Ò1
+`
+java:S1854(">Remove this useless assignment to local variable "subtask4id".(–¯òúşÿÿÿÿ8™ãÖ‹Ò1
+[
+java:S1854'">Remove this useless assignment to local variable "subtask3id".(ª¾ßş8™ãÖ‹Ò1
+[
+java:S1854&">Remove this useless assignment to local variable "subtask2id".(î…± 8™ãÖ‹Ò1
+`
+java:S1854%">Remove this useless assignment to local variable "subtask1id".(ÿêîıÿÿÿÿ8™ãÖ‹Ò1
+]
+java:S1854";Remove this useless assignment to local variable "epic5Id".(ŞöÆ†úÿÿÿÿ8™ãÖ‹Ò1
+X
+java:S1854";Remove this useless assignment to local variable "epic4Id".(©ÌÁ€8™ãÖ‹Ò1
+]
+java:S1854";Remove this useless assignment to local variable "epic3Id".(Äì³Üøÿÿÿÿ8™ãÖ‹Ò1
+]
+java:S1854";Remove this useless assignment to local variable "epic2Id".(—•˜Øüÿÿÿÿ8™ãÖ‹Ò1
+X
+java:S1854";Remove this useless assignment to local variable "epic1Id".(îªäš8™ãÖ‹Ò1
+]
+java:S1854";Remove this useless assignment to local variable "task4id".(¤ãÚ¤úÿÿÿÿ8™ãÖ‹Ò1
+]
+java:S1854";Remove this useless assignment to local variable "task3id".(¬Æ¹¾ùÿÿÿÿ8™ãÖ‹Ò1
+X
+java:S1854";Remove this useless assignment to local variable "task2id".(‘ÖÍ8™ãÖ‹Ò1
+]
+java:S1854";Remove this useless assignment to local variable "task1id".(ú ƒ‡ÿÿÿÿÿ8™ãÖ‹Ò1
+N
+java:S1481",Remove this unused "task1id" local variable.(ú ƒ‡ÿÿÿÿÿ8¨ãÖ‹Ò1
+I
+java:S1481",Remove this unused "task2id" local variable.(‘ÖÍ8¨ãÖ‹Ò1
+N
+java:S1481",Remove this unused "task3id" local variable.(¬Æ¹¾ùÿÿÿÿ8¨ãÖ‹Ò1
+N
+java:S1481",Remove this unused "task4id" local variable.(¤ãÚ¤úÿÿÿÿ8¨ãÖ‹Ò1
+I
+java:S1481",Remove this unused "epic1Id" local variable.(îªäš8¨ãÖ‹Ò1
+N
+java:S1481",Remove this unused "epic2Id" local variable.(—•˜Øüÿÿÿÿ8¨ãÖ‹Ò1
+N
+java:S1481",Remove this unused "epic3Id" local variable.(Äì³Üøÿÿÿÿ8¨ãÖ‹Ò1
+I
+java:S1481",Remove this unused "epic4Id" local variable.(©ÌÁ€8¨ãÖ‹Ò1
+N
+java:S1481",Remove this unused "epic5Id" local variable.(ŞöÆ†úÿÿÿÿ8¨ãÖ‹Ò1
+Q
+java:S1481%"/Remove this unused "subtask1id" local variable.(ÿêîıÿÿÿÿ8¨ãÖ‹Ò1
+L
+java:S1481&"/Remove this unused "subtask2id" local variable.(î…± 8¨ãÖ‹Ò1
+L
+java:S1481'"/Remove this unused "subtask3id" local variable.(ª¾ßş8¨ãÖ‹Ò1
+Q
+java:S1481("/Remove this unused "subtask4id" local variable.(–¯òúşÿÿÿÿ8¨ãÖ‹Ò1
+Q
+java:S1481)"/Remove this unused "subtask5id" local variable.(ÓÀÿÿÿÿÿ8¨ãÖ‹Ò1
+L
+java:S1481*"/Remove this unused "subtask6id" local variable.(±Â“º8¨ãÖ‹Ò1
+Q
+java:S1481+"/Remove this unused "subtask7id" local variable.(“Ì›­øÿÿÿÿ8¨ãÖ‹Ò1
+G	java:S1061"+Replace this use of System.out by a logger.(áñÁ·8¨ãÖ‹Ò1
+G	java:S106<"+Replace this use of System.out by a logger.(áñÁ·8¨ãÖ‹Ò1
+G	java:S106@"+Replace this use of System.out by a logger.(áñÁ·8¨ãÖ‹Ò1
+G	java:S106A"+Replace this use of System.out by a logger.(áñÁ·8¨ãÖ‹Ò1
+G	java:S106F"+Replace this use of System.out by a logger.(ùÑ’¾8¨ãÖ‹Ò1
+L	java:S106G"+Replace this use of System.out by a logger.(å”‘ëùÿÿÿÿ8¾—ú‹Ò1

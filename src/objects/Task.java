@@ -4,7 +4,7 @@ import enums.TaskStatus;
 
 import java.util.Objects;
 
-public class Task {
+public class Task implements Cloneable {
     private int taskId;
     private String name;
     private String description;
@@ -19,28 +19,28 @@ public class Task {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public int getTaskId() {
-        return taskId;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public TaskStatus getStatus() {
+        return status;
+    }
+
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public int getTaskId() {
+        return taskId;
     }
 
     public void setTaskId(int taskId) {
@@ -68,5 +68,12 @@ public class Task {
                 ", description=" + this.description + " " +
                 ", status=" + this.status +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        Task task = (Task) super.clone();
+        return task;
     }
 }

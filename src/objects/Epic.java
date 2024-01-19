@@ -2,7 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 
-public class Epic extends Task {
+public class Epic extends Task  {
 
     private ArrayList<Integer> subtasks;
 
@@ -28,5 +28,14 @@ public class Epic extends Task {
                 ", status=" + this.getStatus() +
                 ", сабтаски=" + this.getSubtasks() +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        Epic epic = (Epic) super.clone();
+        ArrayList<Integer> subtasksToClone = (ArrayList<Integer> )this.getSubtasks().clone();
+        epic.setSubtasks(subtasksToClone);
+        return epic;
     }
 }
