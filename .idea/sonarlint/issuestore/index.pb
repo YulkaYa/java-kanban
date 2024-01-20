@@ -69,3 +69,9 @@ I
 src/service/Managers.java,3\0\307443a197331a710b5cc100c0f66ec4685726b9
 L
 test/TestDataAndMethods.java,7\9\79ada19dbf72ee9ba73d214dc002ba1346ba4c01
+J
+test/objects/EpicTest.java,f\a\fa65762d5ccf5ae8524b353313e20b4a4b9f26b2
+Y
+)test/manager/InMemoryTaskManagerTest.java,c\4\c4d5f626665ebd025f6078635fa98c0ba97ad336
+N
+test/service/ManagersTest.java,8\7\871dad73e95c593f5a7b0956d1bb8ed92b6fc1cf

@@ -1,25 +1,16 @@
-package service;
-
 import manager.InMemoryTaskManager;
 import manager.TaskManager;
 import objects.Epic;
 import objects.Subtask;
 import objects.Task;
 import enums.TaskStatus;
+import java.util.ArrayList;
 
 public class TestDataAndMethods {
 
     private TaskManager generateTasksForTest() {
 
         TaskManager manager = new InMemoryTaskManager();
-        Task task1 = new Task("таск1", "таск1 дескрипшн");
-        Task task2 = new Task("таск2", "таск2 дескрипшн");
-        Task task3 = new Task("таск3", "таск3 дескрипшн");
-        Task task4 = new Task("таск4", "таск4 дескрипшн");
-         int task1id = manager.createTask(task1);
-        int task2id = manager.createTask(task2);
-        int task3id = manager.createTask(task3);
-        int task4id = manager.createTask(task4);
 
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");
@@ -33,25 +24,58 @@ public class TestDataAndMethods {
         Subtask subtask1 = new Subtask("сабтаск1", "сабтаск1 для экпика1");
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         Subtask subtask3 = new Subtask("сабтаск3", "сабтаск3 для экпика1");
-        Subtask subtask4 = new Subtask("сабтаск4", "сабтаск4 для экпика2");
+        Subtask subtask4 = new Subtask("сабтаск4", "сабтаск4 для экпика1");
         Subtask subtask5 = new Subtask("сабтаск5", "сабтаск5 для экпика2");
         Subtask subtask6 = new Subtask("сабтаск6", "сабтаск6 для экпика2");
         Subtask subtask7 = new Subtask("сабтаск7", "сабтаск7 для экпика2");
+        Subtask subtask8 = new Subtask("сабтаск8", "сабтаск8 для экпика2");
         int subtask1id = manager.createSubTask(subtask1, epic1);
         int subtask2id = manager.createSubTask(subtask2, epic1);
         int subtask3id = manager.createSubTask(subtask3, epic1);
-        int subtask4id = manager.createSubTask(subtask4, epic2);
+        int subtask4id = manager.createSubTask(subtask4, epic1);
         int subtask5id = manager.createSubTask(subtask5, epic2);
         int subtask6id = manager.createSubTask(subtask6, epic2);
         int subtask7id = manager.createSubTask(subtask7, epic2);
+        int subtask8id = manager.createSubTask(subtask7, epic2);
+
+        Task task1 = new Task("таск1", "таск1 дескрипшн");
+        Task task2 = new Task("таск2", "таск2 дескрипшн");
+        Task task3 = new Task("таск3", "таск3 дескрипшн");
+        Task task4 = new Task("таск4", "таск4 дескрипшн");
+        int task1id = manager.createTask(task1);
+        int task2id = manager.createTask(task2);
+        int task3id = manager.createTask(task3);
+        int task4id = manager.createTask(task4);
         return manager;
     }
 
-    public void test1() {
+    public void testAll() throws CloneNotSupportedException {
         TaskManager manager = generateTasksForTest();
-        manager.printAllEpics();
-        manager.printAllTasks();
-        manager.printAllSubTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("1--------------------");
+        ArrayList<Task> tasks = manager.getAllTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("2--------------------");
+        ArrayList<Epic> epics = manager.getAllEpics();
+        System.out.println(manager.getHistory());
+        System.out.println("3--------------------");
+        ArrayList<Subtask> subtasks = manager.getAllSubTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("4--------------------");
+        manager.getTaskById(tasks.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("5--------------------");
+        manager.getTaskById(epics.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("6--------------------");
+        manager.getTaskById(subtasks.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("7--------------------");
+        manager.removeById(subtasks.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("8--------------------");
+        manager.getTaskById(epics.get(1).getTaskId());
+        System.out.println(manager.getHistory());
 
         System.out.println("проверяем updateTask для эпика");
 
@@ -119,5 +143,40 @@ public class TestDataAndMethods {
         System.out.println("проверяем удаление всех таск'");
         manager.removeAllTasks();
         manager.printAllTasks();  // распечатаем таски
+    }
+
+    public void testHistory() throws CloneNotSupportedException {
+        TaskManager manager = generateTasksForTest();
+        System.out.println(manager.getHistory());
+        System.out.println("1--------------------");
+        ArrayList<Task> tasks = manager.getAllTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("2--------------------");
+        ArrayList<Epic> epics = manager.getAllEpics();
+        System.out.println(manager.getHistory());
+        System.out.println("3--------------------");
+        ArrayList<Subtask> subtasks = manager.getAllSubTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("4--------------------");
+        manager.getTaskById(tasks.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("5--------------------");
+        manager.getTaskById(epics.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("6--------------------");
+        manager.getTaskById(subtasks.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("7--------------------");
+        manager.getTaskById(epics.get(0).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("8--------------------");
+        manager.removeById(subtasks.get(1).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("9--------------------");
+        manager.getTaskById(epics.get(0).getTaskId());
+        System.out.println(manager.getHistory());
+        System.out.println("10--------------------");
+        manager.getTaskById(tasks.get(0).getTaskId());
+        System.out.println(manager.getHistory());
     }
 }

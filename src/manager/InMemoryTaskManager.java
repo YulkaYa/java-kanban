@@ -78,7 +78,7 @@ public class InMemoryTaskManager implements TaskManager {
     (Task)*/
     @Override
     public ArrayList<Task> getAllTasks() {
-        if (mapOfTasks == null) {
+        if (mapOfTasks == null || mapOfTasks.isEmpty()) {
             return new ArrayList<>();
         } else {
             ArrayList<Task> tasks = mapOfTasks.values()
@@ -99,7 +99,7 @@ public class InMemoryTaskManager implements TaskManager {
     (Epic)*/
     @Override
     public ArrayList<Epic> getAllEpics() {
-        if (mapOfEpics == null) {
+        if (mapOfEpics == null || mapOfEpics.isEmpty()) {
             return new ArrayList<>();
         } else {
             ArrayList<Epic> epics = mapOfEpics.values()
@@ -120,7 +120,7 @@ public class InMemoryTaskManager implements TaskManager {
     (SubTask)*/
     @Override
     public ArrayList<Subtask> getAllSubTasks() {
-        if (mapOfSubtasks == null) {
+        if (mapOfSubtasks == null || mapOfSubtasks.isEmpty()) {
             return new ArrayList<>();
         } else {
             ArrayList<Subtask> subTasks = mapOfSubtasks.values()
@@ -169,16 +169,17 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Subtask> getSubTasksByEpic(int epicId) throws CloneNotSupportedException {  //
         // Проверяем, что такой эпик есть в мапе эпиков
         if (mapOfEpics.containsKey(epicId)) {
-            ArrayList<Integer> subtasksIdByEpic = mapOfEpics.get(epicId).getSubtasks(); // получили все id сабтаск по эпику
+            // получили все id сабтаск по эпику
+            ArrayList<Integer> subtasksIdByEpic = mapOfEpics.get(epicId).getSubtasks();
             ArrayList<Subtask> subtasks = new ArrayList<>();
             for (int idOfSubtask : subtasksIdByEpic) {
                 Subtask subtask = mapOfSubtasks.get(idOfSubtask);
-                subtasks.add(mapOfSubtasks.get(subtask)); // сохраняем в новый массив объекты сабтаск из эпика
+                subtasks.add(subtask); // сохраняем в новый массив объекты сабтаск из эпика
                 historyManager.add(subtask);
             }
 
             return subtasks; // возвращаем список сабтаск из эпика в виде массива объектов Subtask
-        } else return null;
+        } else return new ArrayList<>();
     }
 
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
@@ -186,18 +187,18 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task task) {
         if (task != null) {
             String className = task.getClass().getSimpleName();
-
+            int thisTaskId = task.getTaskId();
             switch (className) { // Определяем тип задачи по классу
                 case "Task":
                     // Если таска есть в мапе таск, то обновляем объект
-                    if (mapOfTasks.containsValue(task)) {
+                    if (mapOfTasks.containsKey(thisTaskId)) {
                         mapOfTasks.put(task.getTaskId(), task);
                     }
                     break;
 
                 case "Subtask":
                     // Если сабтаска есть в мапе сабтаск, то обновляем объект
-                    if (mapOfSubtasks.containsValue(task)) {
+                    if (mapOfSubtasks.containsKey(thisTaskId)) {
                         Subtask newSubtask = (Subtask) task;
                         int subTaskId = newSubtask.getTaskId();
                         // получаем эпик, с которым была связана сабтаска
@@ -205,7 +206,8 @@ public class InMemoryTaskManager implements TaskManager {
                         // получаем эпик, с которым должна быть связана сабтаска
                         Epic newEpic = mapOfEpics.get(newSubtask.getEpicId());
 
-                        // Если сабтаска есть в мапе сабтаск и эпики(старый, новый) существуют, то обновляем сабтаск и эпики
+                        // Если сабтаска есть в мапе сабтаск и эпики(старый, новый) существуют, то обновляем сабтаск
+                        // и эпики
                         if (newEpic != null && oldEpic != null) {
                             // если изменяли epicId, то обновляем сами эпики
                             if (oldEpic != newEpic) {
@@ -222,7 +224,7 @@ public class InMemoryTaskManager implements TaskManager {
 
                 case "Epic":
                     // Если эпик есть в мапе эпиков, то обновляем объект
-                    if (mapOfEpics.containsValue(task)) {
+                    if (mapOfEpics.containsKey(thisTaskId)) {
                         // Получаем объекты нового и старого эпиков
                         Epic newEpic = (Epic) task;
                         Epic oldEpic = mapOfEpics.get(newEpic.getTaskId());
@@ -245,7 +247,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    // Метод для поиска эпиков по сабтаске(id) . Без записи в историю просмотра задач
+    // Метод для поиска эпиков по сабтаске(id). Без записи в историю просмотра задач
     @Override
     public Epic getEpicBySubtaskId(int subTaskId) {
         Subtask subtask = mapOfSubtasks.get(subTaskId);
