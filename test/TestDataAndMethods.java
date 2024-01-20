@@ -49,7 +49,7 @@ public class TestDataAndMethods {
         return manager;
     }
 
-    public void testAll() throws CloneNotSupportedException {
+    public void testAll()  {
         TaskManager manager = generateTasksForTest();
         System.out.println(manager.getHistory());
         System.out.println("1--------------------");
@@ -145,7 +145,7 @@ public class TestDataAndMethods {
         manager.printAllTasks();  // распечатаем таски
     }
 
-    public void testHistory() throws CloneNotSupportedException {
+    public void testHistory()  {
         TaskManager manager = generateTasksForTest();
         System.out.println(manager.getHistory());
         System.out.println("1--------------------");

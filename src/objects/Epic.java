@@ -31,7 +31,7 @@ public class Epic extends Task  {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
+    public Object clone()
     {
         Epic epic = (Epic) super.clone();
         ArrayList<Integer> subtasksToClone = (ArrayList<Integer> )this.getSubtasks().clone();

@@ -14,7 +14,7 @@ class ManagersTest {
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
-    void managersCreatesInitializedAndReadyToWorkObjectsOfManagers() throws CloneNotSupportedException {
+    void managersCreatesInitializedAndReadyToWorkObjectsOfManagers()  {
         TaskManager taskManager = Managers.getDefault();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
@@ -40,7 +40,7 @@ class ManagersTest {
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
-    void managersCreatesInitializedAndReadyToWorkObjectsOfHistoryManagers() throws CloneNotSupportedException {
+    void managersCreatesInitializedAndReadyToWorkObjectsOfHistoryManagers()  {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
@@ -60,7 +60,7 @@ class ManagersTest {
     }
 
     @Test
-    void checkThatHistoryStoresPreviousStateOfObject() throws CloneNotSupportedException {
+    void checkThatHistoryStoresPreviousStateOfObject()  {
         TaskManager taskManager = Managers.getDefault();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);

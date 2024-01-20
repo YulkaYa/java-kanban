@@ -27,7 +27,7 @@ public class Subtask extends Task {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
+    public Object clone()
     {
         Subtask subTask = (Subtask) super.clone();
         return subTask;

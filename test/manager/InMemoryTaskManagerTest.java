@@ -205,7 +205,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
     @Test
-    void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem() throws CloneNotSupportedException {
+    void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem()  {
         ArrayList<Epic> epics = taskManager.getAllEpics();
         ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
         ArrayList<Task> tasks = taskManager.getAllTasks();
@@ -372,7 +372,7 @@ class InMemoryTaskManagerTest {
 
     // Проверим, что можем получить все объекты сабтаск эпика, имея его id
     @Test
-    void checkThatWeCanGetSubtasksObjectsByEpic() throws CloneNotSupportedException {
+    void checkThatWeCanGetSubtasksObjectsByEpic()  {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
 

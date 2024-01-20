@@ -78,18 +78,12 @@ public class InMemoryTaskManager implements TaskManager {
     (Task)*/
     @Override
     public ArrayList<Task> getAllTasks() {
-        if (mapOfTasks == null || mapOfTasks.isEmpty()) {
+        if (mapOfTasks.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Task> tasks = mapOfTasks.values()
-                    .stream()
-                    .collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Task> tasks = mapOfTasks.values().stream().collect(Collectors.toCollection(ArrayList::new));
             tasks.forEach(task -> {
-                try {
-                    historyManager.add(task);
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                historyManager.add(task);
             });
             return tasks;
         }
@@ -99,18 +93,12 @@ public class InMemoryTaskManager implements TaskManager {
     (Epic)*/
     @Override
     public ArrayList<Epic> getAllEpics() {
-        if (mapOfEpics == null || mapOfEpics.isEmpty()) {
+        if (mapOfEpics.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Epic> epics = mapOfEpics.values()
-                    .stream()
-                    .collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Epic> epics = mapOfEpics.values().stream().collect(Collectors.toCollection(ArrayList::new));
             epics.forEach(epic -> {
-                try {
-                    historyManager.add(epic);
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                historyManager.add(epic);
             });
             return epics;
         }
@@ -120,18 +108,12 @@ public class InMemoryTaskManager implements TaskManager {
     (SubTask)*/
     @Override
     public ArrayList<Subtask> getAllSubTasks() {
-        if (mapOfSubtasks == null || mapOfSubtasks.isEmpty()) {
+        if (mapOfSubtasks.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Subtask> subTasks = mapOfSubtasks.values()
-                    .stream()
-                    .collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Subtask> subTasks = mapOfSubtasks.values().stream().collect(Collectors.toCollection(ArrayList::new));
             subTasks.forEach(subTask -> {
-                try {
-                    historyManager.add(subTask);
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                historyManager.add(subTask);
             });
             return subTasks;
         }
@@ -166,7 +148,7 @@ public class InMemoryTaskManager implements TaskManager {
     /*    Дополнительные методы:
     a. Получение списка всех подзадач определённого эпика.*/
     @Override
-    public ArrayList<Subtask> getSubTasksByEpic(int epicId) throws CloneNotSupportedException {  //
+    public ArrayList<Subtask> getSubTasksByEpic(int epicId) {  //
         // Проверяем, что такой эпик есть в мапе эпиков
         if (mapOfEpics.containsKey(epicId)) {
             // получили все id сабтаск по эпику
@@ -265,17 +247,11 @@ public class InMemoryTaskManager implements TaskManager {
         // Обновляем эпик, если он существует в мапе эпиков
         if (epic != null) {
             // Получаем список статусов сабтасок эпика
-            ArrayList<TaskStatus> statuses = mapOfSubtasks.values()
-                    .stream()
-                    .collect(Collectors.toCollection(ArrayList::new))
+            ArrayList<TaskStatus> statuses = mapOfSubtasks.values().stream().collect(Collectors.toCollection(ArrayList::new))
 
-                    .stream()
-                    .filter(s -> s.getEpicId() == epicId)
-                    .collect(Collectors.toCollection(ArrayList::new))
+                    .stream().filter(s -> s.getEpicId() == epicId).collect(Collectors.toCollection(ArrayList::new))
 
-                    .stream()
-                    .map(s -> s.getStatus())
-                    .collect(Collectors.toCollection(ArrayList::new));
+                    .stream().map(s -> s.getStatus()).collect(Collectors.toCollection(ArrayList::new));
 
 
             if (statuses.isEmpty()) {
@@ -330,7 +306,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     // c. Получение по идентификатору (любой тип задачи).
     @Override
-    public Task getTaskById(int id) throws CloneNotSupportedException {
+    public Task getTaskById(int id) {
         HashMap<Integer, ? extends Task> map = whichMapContainsTask(id);
         if (map != null) {
             Task task = map.get(id);
@@ -348,8 +324,7 @@ public class InMemoryTaskManager implements TaskManager {
             return mapOfTasks;
         } else if (mapOfSubtasks.containsKey(id)) {
             return mapOfSubtasks;
-        } else
-            return null;
+        } else return null;
     }
 
     @Override

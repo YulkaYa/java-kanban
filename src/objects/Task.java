@@ -71,9 +71,14 @@ public class Task implements Cloneable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
+    public Object clone()
     {
-        Task task = (Task) super.clone();
-        return task;
+        try {
+            Task task = (Task) super.clone();
+            return task;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }

@@ -47,7 +47,7 @@ public interface TaskManager {
 
     /*    Дополнительные методы:
         a. Получение списка всех подзадач определённого эпика.*/
-    ArrayList<Subtask> getSubTasksByEpic(int epicId) throws CloneNotSupportedException;
+    ArrayList<Subtask> getSubTasksByEpic(int epicId);
 
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     void updateTask(Task task);
@@ -62,7 +62,7 @@ public interface TaskManager {
     void removeById(int id);
 
     // c. Получение по идентификатору (любой тип задачи).
-    Task getTaskById(int id) throws CloneNotSupportedException;
+    Task getTaskById(int id);
 
     void printAllEpics();
 
