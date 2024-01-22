@@ -4,7 +4,6 @@ import objects.Epic;
 import objects.Subtask;
 import objects.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
@@ -23,15 +22,15 @@ public interface TaskManager {
 
     /*a. Получение списка всех задач
         (Task)*/
-    ArrayList<Task> getAllTasks();
+    List<Task> getAllTasks();
 
     /*a. Получение списка всех задач
         (Epic)*/
-    ArrayList<Epic> getAllEpics();
+    List<Epic> getAllEpics();
 
     /*a. Получение списка всех задач
         (SubTask)*/
-    ArrayList<Subtask> getAllSubTasks();
+    List<Subtask> getAllSubTasks();
 
     /*b. Удаление всех задач
         (Task)*/
@@ -47,7 +46,7 @@ public interface TaskManager {
 
     /*    Дополнительные методы:
         a. Получение списка всех подзадач определённого эпика.*/
-    ArrayList<Subtask> getSubTasksByEpic(int epicId);
+    List<Subtask> getSubTasksByEpic(int epicId);
 
     // e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     void updateTask(Task task);

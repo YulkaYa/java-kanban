@@ -4,7 +4,7 @@ import objects.Epic;
 import objects.Subtask;
 import objects.Task;
 import enums.TaskStatus;
-import java.util.ArrayList;
+import java.util.List;
 
 public class TestDataAndMethods {
 
@@ -53,13 +53,13 @@ public class TestDataAndMethods {
         TaskManager manager = generateTasksForTest();
         System.out.println(manager.getHistory());
         System.out.println("1--------------------");
-        ArrayList<Task> tasks = manager.getAllTasks();
+        List<Task> tasks = manager.getAllTasks();
         System.out.println(manager.getHistory());
         System.out.println("2--------------------");
-        ArrayList<Epic> epics = manager.getAllEpics();
+        List<Epic> epics = manager.getAllEpics();
         System.out.println(manager.getHistory());
         System.out.println("3--------------------");
-        ArrayList<Subtask> subtasks = manager.getAllSubTasks();
+        List<Subtask> subtasks = manager.getAllSubTasks();
         System.out.println(manager.getHistory());
         System.out.println("4--------------------");
         manager.getTaskById(tasks.get(1).getTaskId());
@@ -149,13 +149,13 @@ public class TestDataAndMethods {
         TaskManager manager = generateTasksForTest();
         System.out.println(manager.getHistory());
         System.out.println("1--------------------");
-        ArrayList<Task> tasks = manager.getAllTasks();
+        List<Task> tasks = manager.getAllTasks();
         System.out.println(manager.getHistory());
         System.out.println("2--------------------");
-        ArrayList<Epic> epics = manager.getAllEpics();
+        List<Epic> epics = manager.getAllEpics();
         System.out.println(manager.getHistory());
         System.out.println("3--------------------");
-        ArrayList<Subtask> subtasks = manager.getAllSubTasks();
+        List<Subtask> subtasks = manager.getAllSubTasks();
         System.out.println(manager.getHistory());
         System.out.println("4--------------------");
         manager.getTaskById(tasks.get(1).getTaskId());

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.Managers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -95,8 +94,8 @@ class InMemoryTaskManagerTest {
         subtask2.setTaskId(epic1Id); // Присвоили эпикID эпика сабтаске
         taskManager.createSubTask(subtask2, epic1); // Пробуем добавить сабтаску к эпику
 
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
 
         assertEquals(1, epics.size(), "Неверное количество задач.");
         assertEquals(2, subtasks.size(), "Неверное количество сабтаск.");
@@ -116,8 +115,8 @@ class InMemoryTaskManagerTest {
         subtask2.setTaskId(1000); //  установим несуществующий idсабтаски
         taskManager.updateTask(subtask2); // Попытаемся обновить сабтаску
 
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
 
         assertEquals(1, epics.size(), "Неверное количество задач.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
@@ -161,9 +160,9 @@ class InMemoryTaskManagerTest {
         taskManager.createSubTask(subtask2, epic2);
         taskManager.createTask(task2);
 
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
-        ArrayList<Task> tasks = taskManager.getAllTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Task> tasks = taskManager.getAllTasks();
 
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
@@ -186,8 +185,8 @@ class InMemoryTaskManagerTest {
         subtask2.setTaskId(subtask1id);
         taskManager.updateTask(subtask2);
 
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
 
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
@@ -206,9 +205,9 @@ class InMemoryTaskManagerTest {
     // проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
     @Test
     void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem()  {
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
-        ArrayList<Task> tasks = taskManager.getAllTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Task> tasks = taskManager.getAllTasks();
 
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
@@ -229,9 +228,9 @@ class InMemoryTaskManagerTest {
     void removeAllEpicsAndTasksAndSubTasks() {
 
         taskManager.removeAllSubTasks();
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
-        ArrayList<Task> tasks = taskManager.getAllTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Task> tasks = taskManager.getAllTasks();
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(0, subtasks.size(), "Неверное количество сабтаск.");
         assertEquals(1, tasks.size(), "Неверное количество таск.");
@@ -258,8 +257,8 @@ class InMemoryTaskManagerTest {
     void checkStatusOfEpic() {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
 
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(2, subtasks.size(), "Неверное количество сабтаск.");
@@ -307,8 +306,8 @@ class InMemoryTaskManagerTest {
         // Установили статус сабтаски2 = IN_PROGRESS
         subtask2.setStatus(TaskStatus.IN_PROGRESS);
         taskManager.createSubTask(subtask2, epic1);
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
 
         // Проверили, что при создании сабтаски старый статус сабтаски меняется на NEW
         assertEquals(TaskStatus.NEW, epics.get(0).getStatus(), "Неверный статус эпика");
@@ -330,7 +329,7 @@ class InMemoryTaskManagerTest {
 
         epics = taskManager.getAllEpics();
         subtasks = taskManager.getAllSubTasks();
-        ArrayList<Task> tasks = taskManager.getAllTasks();
+        List<Task> tasks = taskManager.getAllTasks();
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
         assertEquals(1, tasks.size(), "Неверное количество таск.");
@@ -352,8 +351,8 @@ class InMemoryTaskManagerTest {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
 
-        ArrayList<Epic> epics = taskManager.getAllEpics();
-        ArrayList<Subtask> subtasks = taskManager.getAllSubTasks();
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
 
         assertEquals(2, epics.size(), "Неверное количество эпиков.");
         assertEquals(2, epics.get(0).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
@@ -376,7 +375,7 @@ class InMemoryTaskManagerTest {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
 
-        ArrayList<Subtask> subtasksByepic1 = taskManager.getSubTasksByEpic(epic1Id);
+        List<Subtask> subtasksByepic1 = taskManager.getSubTasksByEpic(epic1Id);
 
         assertEquals(2, subtasksByepic1.size(), "Неверное количество сабтаск.");
         assertEquals(subtask1, subtasksByepic1.get(0), "Неверное содержимое сабтаск.");
