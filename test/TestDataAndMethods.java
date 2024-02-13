@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TestDataAndMethods {
 
-    private TaskManager generateTasksForTest() {
+    private static TaskManager generateTasksForTest() {
 
         TaskManager manager = new InMemoryTaskManager();
 
@@ -49,104 +49,127 @@ public class TestDataAndMethods {
         return manager;
     }
 
-    public void testAll()  {
+
+    public static void testAll()  {
         TaskManager manager = generateTasksForTest();
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("1--------------------");
         List<Task> tasks = manager.getAllTasks();
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("2--------------------");
         List<Epic> epics = manager.getAllEpics();
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("3--------------------");
         List<Subtask> subtasks = manager.getAllSubTasks();
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("4--------------------");
         manager.getTaskById(tasks.get(1).getTaskId());
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("5--------------------");
         manager.getTaskById(epics.get(1).getTaskId());
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("6--------------------");
         manager.getTaskById(subtasks.get(1).getTaskId());
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("7--------------------");
         manager.removeById(subtasks.get(1).getTaskId());
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
         System.out.println("8--------------------");
         manager.getTaskById(epics.get(1).getTaskId());
-        System.out.println(manager.getHistory());
+        System.out.println("history"  + manager.getHistory());
 
+        System.out.println("9--------------------");
         System.out.println("проверяем updateTask для эпика");
 
         Epic epicNew = new Epic("эпик345435", "новый эпик345435"); // создадим новый объект эпик
-        epicNew.setTaskId(5); // установим ид нового эпика = 5 (сейчас этот ид у эпика "эпик1")
+        epicNew.setTaskId(1); // установим ид нового эпика = 1 (сейчас этот ид у эпика "эпик1")
 
         manager.updateTask(epicNew); // обновим объект эпика1 объектом epicNew с таким же ид
 
         Subtask subtaskNew = new Subtask("субтаскнью", "дескрипшн");
         subtaskNew.setStatus(TaskStatus.IN_PROGRESS);
         manager.createSubTask(subtaskNew, epicNew);
+        System.out.println("10--------------------");
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
 
-        Subtask subtaskNew1 = new Subtask("сабтаск8", "сабтаск8 для замены сабтаски 16");
-        subtaskNew1.setEpicId(7); // заменим в новой сабтаске epicId
-        subtaskNew1.setTaskId(16); // укажем уже существующий id сабтаски
+        Subtask subtaskNew1 = new Subtask("сабтаск8", "сабтаск8 для замены сабтаски 8");
+        subtaskNew1.setEpicId(1); // заменим в новой сабтаске epicId
+        subtaskNew1.setTaskId(8); // укажем уже существующий id сабтаски
 
         Subtask subtaskNew2 = new Subtask("сабтаск9", "сабтаск9 для замены сабтаски c id = 9");
-        subtaskNew1.setTaskId(9); // укажем уже существующий id сабтаски
+        subtaskNew2.setTaskId(9); // укажем уже существующий id сабтаски
         System.out.println("проверяем updateTask для сабтаски");
         manager.updateTask(subtaskNew1); // проверим обновление сабтаски
         manager.updateTask(subtaskNew2);
 
+        System.out.println("11--------------------");
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
+
+        System.out.println("12--------------------");
 
         // проверяем удаление таск, сабтаски, эпика
         System.out.println("проверяем removeById для эпика");
-        manager.removeById(5);
+        manager.removeById(1);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
 
+        System.out.println("13--------------------");
         System.out.println("проверяем removeById для сабтаски");
         manager.removeById(12);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
 
+        System.out.println("14--------------------");
         System.out.println("проверяем removeById для таски");
-        manager.removeById(1);
+        manager.removeById(13);
         manager.printAllTasks();  // распечатаем таски
 
+        System.out.println("15--------------------");
         System.out.println("проверяем обновление статуса для эпика'");
-        manager.getTaskById(5).setStatus(TaskStatus.IN_PROGRESS); // меняем статус одной из сабтаск на IN_PROGRESS
-        manager.updateEpicStatus(6);
-        manager.printAllEpics();  // распечатаем эпики
-        manager.printAllSubTasks(); // распечатаем сабтаски
-        manager.getTaskById(13).setStatus(TaskStatus.NEW); // меняем статус сабтаски снова на New
-        manager.updateEpicStatus(6);
+        manager.getTaskById(9).setStatus(TaskStatus.IN_PROGRESS); // меняем статус одной из сабтаск на IN_PROGRESS
+        manager.updateEpicStatus(2);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
 
-        manager.getTaskById(13).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE для эпика с bl= 6
-        manager.getTaskById(14).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика с bl= 6
-        manager.getTaskById(15).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика с bl= 6
-        manager.updateEpicStatus(6);
+        System.out.println("16--------------------");
+        manager.getTaskById(9).setStatus(TaskStatus.NEW); // меняем статус сабтаски снова на New
+        manager.updateEpicStatus(2);
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
 
+        System.out.println("17--------------------");
+        manager.getTaskById(9).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE для эпика
+        manager.getTaskById(10).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика
+        manager.getTaskById(11).setStatus(TaskStatus.DONE); // меняем статус сабтаски  на DONE  для эпика
+        manager.updateEpicStatus(2);
+        manager.printAllEpics();  // распечатаем эпики
+        manager.printAllSubTasks(); // распечатаем сабтаски
+
+        System.out.println("18--------------------");
         System.out.println("проверяем удаление всех сабтаск'");
         manager.removeAllSubTasks();
         manager.printAllEpics();  // распечатаем эпики
         manager.printAllSubTasks(); // распечатаем сабтаски
+        System.out.println("history"  + manager.getHistory());
 
+        System.out.println("19--------------------");
         System.out.println("проверяем удаление всех таск'");
         manager.removeAllTasks();
         manager.printAllTasks();  // распечатаем таски
+        System.out.println("history"  + manager.getHistory());
+        System.out.println("20--------------------");
+        System.out.println("history"  + manager.getHistory());
+        System.out.println("21--------------------");
+        System.out.println("проверяем удаление всех эпиков'");
+        manager.removeAllEpics();
+        System.out.println("history"  + manager.getHistory());
     }
 
-    public void testHistory()  {
+    public static void testHistory()  {
         TaskManager manager = generateTasksForTest();
+        manager.removeById(3);
         System.out.println(manager.getHistory());
         System.out.println("1--------------------");
         List<Task> tasks = manager.getAllTasks();
@@ -158,25 +181,46 @@ public class TestDataAndMethods {
         List<Subtask> subtasks = manager.getAllSubTasks();
         System.out.println(manager.getHistory());
         System.out.println("4--------------------");
-        manager.getTaskById(tasks.get(1).getTaskId());
+        manager.getTaskById(13);
         System.out.println(manager.getHistory());
         System.out.println("5--------------------");
-        manager.getTaskById(epics.get(1).getTaskId());
+        manager.getTaskById(2);
         System.out.println(manager.getHistory());
         System.out.println("6--------------------");
-        manager.getTaskById(subtasks.get(1).getTaskId());
+        manager.getTaskById(6);
         System.out.println(manager.getHistory());
         System.out.println("7--------------------");
-        manager.getTaskById(epics.get(0).getTaskId());
+        manager.getTaskById(2);
         System.out.println(manager.getHistory());
         System.out.println("8--------------------");
-        manager.removeById(subtasks.get(1).getTaskId());
+        manager.removeById(6);
         System.out.println(manager.getHistory());
         System.out.println("9--------------------");
-        manager.getTaskById(epics.get(0).getTaskId());
+        manager.getTaskById(1);
         System.out.println(manager.getHistory());
         System.out.println("10--------------------");
-        manager.getTaskById(tasks.get(0).getTaskId());
+        manager.removeAllSubTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("11--------------------");
+        manager.getTaskById(16);
+        System.out.println(manager.getHistory());
+        System.out.println("12--------------------");
+        manager.removeById(1);
+        System.out.println(manager.getHistory());
+        System.out.println("13--------------------");
+        manager.removeById(15);
+        System.out.println(manager.getHistory());
+        System.out.println("14--------------------");
+        manager.removeAllSubTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("11--------------------");
+        manager.getTaskById(14);
+        System.out.println(manager.getHistory());
+        System.out.println("15--------------------");
+        manager.removeAllTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("16--------------------");
+        manager.removeAllEpics();
         System.out.println(manager.getHistory());
     }
 }

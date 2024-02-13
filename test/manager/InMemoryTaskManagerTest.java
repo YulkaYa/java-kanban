@@ -55,7 +55,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что наследники класса Task равны друг другу, если равен их id (SubTask);
     @Test
-    void addNewSubTaskAndCheckEqualityById()  {
+    void addNewSubTaskAndCheckEqualityById() {
         Subtask taskWithSameId = new Subtask("taskWithSameId", " description of taskWithSameId");
         taskWithSameId.setTaskId(subtask1id);
 
@@ -107,7 +107,7 @@ class InMemoryTaskManagerTest {
         assertEquals(4, epics.get(0).getSubtasks().get(1), "id сабтаски не был расчитан верно");
     }
 
-    // проверьте, что объект Subtask с несуществующим id на добавится в список сабтаск
+    // проверьте, что объект Subtask с несуществующим id не добавится в список сабтаск
     @Test
     void cantUpdateSubtaskIfItAbsentInMapTest() {
 
@@ -134,7 +134,7 @@ class InMemoryTaskManagerTest {
         epics = taskManager.getAllEpics();
         subtasks = taskManager.getAllSubTasks();
 
-        // Првоерим, что так как id у сабтаск совпали, то произвойдет обновление сабтаски , но epicId
+        // Првоерим, что так как id у сабтаск совпали, то произойдет обновление сабтаски , но epicId
         assertEquals(1, epics.size(), "Неверное количество задач.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
         assertEquals(1, epic1.getSubtasks().size(), "Неверное количество сабтаск в эпике");
@@ -167,7 +167,7 @@ class InMemoryTaskManagerTest {
         assertEquals(1, epics.size(), "Неверное количество эпиков.");
         assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
         assertEquals(1, tasks.size(), "Неверное количество задач.");
-        assertEquals(1,epic2.getSubtasks().size(), "Неверное количество сабтаск в эпике");
+        assertEquals(1, epic2.getSubtasks().size(), "Неверное количество сабтаск в эпике");
 
         assertEquals(4, epics.get(0).getTaskId(), "эпик сохранен с некорректным id");
         assertEquals(5, subtasks.get(0).getTaskId(), "сабтаска сохранена с некорректным id");
@@ -204,7 +204,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
     @Test
-    void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem()  {
+    void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem() {
         List<Epic> epics = taskManager.getAllEpics();
         List<Subtask> subtasks = taskManager.getAllSubTasks();
         List<Task> tasks = taskManager.getAllTasks();
@@ -324,7 +324,7 @@ class InMemoryTaskManagerTest {
         assertEquals(TaskStatus.NEW, subtasks.get(1).getStatus(), "Неверный статус сабтаски");
 
         // Удалим сабтаску по ID и проверим статус эпика -> NEW,
-        // а также проверим, что сабтаска удалена из эпика и спискасабтаск
+        // а также проверим, что сабтаска удалена из эпика и списка сабтаск
         taskManager.removeById(subtask1id);
 
         epics = taskManager.getAllEpics();
@@ -371,7 +371,7 @@ class InMemoryTaskManagerTest {
 
     // Проверим, что можем получить все объекты сабтаск эпика, имея его id
     @Test
-    void checkThatWeCanGetSubtasksObjectsByEpic()  {
+    void checkThatWeCanGetSubtasksObjectsByEpic() {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
 
@@ -381,5 +381,103 @@ class InMemoryTaskManagerTest {
         assertEquals(subtask1, subtasksByepic1.get(0), "Неверное содержимое сабтаск.");
         assertEquals(subtask2, subtasksByepic1.get(1), "Неверное содержимое сабтаск.");
 
+    }
+
+    @Test
+        // Внутри эпиков не должно оставаться неактуальных id подзадач.
+    void checkRemoveOfIdSubtasksFromEpicsAfterSubtaskBeingRemoved() {
+        Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
+        taskManager.createSubTask(subtask2, epic1);
+
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
+
+        assertEquals(1, epics.size(), "Неверное количество эпиков.");
+        assertEquals(2, epics.get(0).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(2, subtasks.size(), "Неверное количество сабтаск.");
+        assertEquals(2, subtasks.get(0).getTaskId(), "Неверный id сабтаски1.");
+        assertEquals(4, subtasks.get(1).getTaskId(), "Неверный id сабтаски2.");
+        assertEquals(2, epics.get(0).getSubtasks().get(0), "Неверный id сабтаски1. в эпике");
+        assertEquals(4, epics.get(0).getSubtasks().get(1), "Неверный id сабтаски2. в эпике");
+
+        // Удалим 1 сабтаску и проверим, что 2 сабтаска осталась
+        taskManager.removeById(subtask2.getTaskId());
+        epics = taskManager.getAllEpics();
+        subtasks = taskManager.getAllSubTasks();
+
+        assertEquals(1, epics.size(), "Неверное количество эпиков.");
+        assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
+        assertEquals(1, epics.get(0).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(2, subtasks.get(0).getTaskId(), "Неверный id сабтаски1.");
+        assertEquals(2, epics.get(0).getSubtasks().get(0), "Неверный id сабтаски1. в эпике");
+    }
+
+    @Test
+    void checkIfSubtaskIsUpdatedAndNewEpicIsNotEqualWithOld() {
+        Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");
+        int epic2Id = taskManager.createEpic(epic2);
+
+        Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика2");
+        taskManager.createSubTask(subtask2, epic2);
+
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
+
+        assertEquals(2, epics.size(), "Неверное количество эпиков.");
+        assertEquals(2, subtasks.size(), "Неверное количество сабтаск.");
+        assertEquals(2, subtasks.get(0).getTaskId(), "Неверный id сабтаски.");
+        assertEquals(5, subtasks.get(1).getTaskId(), "Неверный id сабтаски.");
+        assertEquals(1, epics.get(0).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(1, epics.get(1).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(2, epics.get(0).getSubtasks().get(0), "Неверный id сабтаски. в эпике");
+        assertEquals(5, epics.get(1).getSubtasks().get(0), "Неверный id сабтаски. в эпике");
+
+        // Поменяем в сабтаске2 epicid : вместо эпика2 сделаем эпик1
+
+        subtask2.setEpicId(1);
+        // Обновим сабтаску2
+        taskManager.updateTask(subtask2);
+
+        epics = taskManager.getAllEpics();
+        subtasks = taskManager.getAllSubTasks();
+        // Проверим, что сабтаска2 теперь привязана к эпику1, а из эпика2 удалена
+        assertEquals(2, epics.size(), "Неверное количество эпиков.");
+        assertEquals(2, subtasks.size(), "Неверное количество сабтаск.");
+        assertEquals(2, subtasks.get(0).getTaskId(), "Неверный id сабтаски.");
+        assertEquals(5, subtasks.get(1).getTaskId(), "Неверный id сабтаски.");
+        assertEquals(2, epics.get(0).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(0, epics.get(1).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(2, epics.get(0).getSubtasks().get(0), "Неверный id сабтаски. в эпике");
+        assertEquals(5, epics.get(0).getSubtasks().get(1), "Неверный id сабтаски. в эпике");
+    }
+
+    @Test
+    void checkIfEpicIsUpdated() {
+        Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");
+        epic2.setTaskId(epic1Id);
+
+        List<Epic> epics = taskManager.getAllEpics();
+        List<Subtask> subtasks = taskManager.getAllSubTasks();
+
+        assertEquals(1, epics.size(), "Неверное количество эпиков.");
+        assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
+        assertEquals(2, subtasks.get(0).getTaskId(), "Неверный id сабтаски.");
+        assertEquals(1, epics.get(0).getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(2, epics.get(0).getSubtasks().get(0), "Неверный id сабтаски. в эпике");
+
+        taskManager.updateTask(epic2);
+
+        epics = taskManager.getAllEpics();
+        subtasks = taskManager.getAllSubTasks();
+
+        Epic epicToCheck = epics.get(0);
+        assertEquals(1, epics.size(), "Неверное количество эпиков.");
+        assertEquals(1, subtasks.size(), "Неверное количество сабтаск.");
+        assertEquals(2, subtasks.get(0).getTaskId(), "Неверный id сабтаски.");
+        assertEquals(1, epicToCheck.getSubtasks().size(), "Неверное количество сабтаск в эпике.");
+        assertEquals(2, epicToCheck.getSubtasks().get(0), "Неверный id сабтаски. в эпике");
+        assertEquals(1, epicToCheck.getTaskId(), "Неверный id эпика.");
+        assertEquals("эпик2", epicToCheck.getName(), "Неверный name эпика.");
+        assertEquals("эпик2 дескрипшн", epicToCheck.getDescription(), "Неверный дескрипшн эпика.");
     }
 }

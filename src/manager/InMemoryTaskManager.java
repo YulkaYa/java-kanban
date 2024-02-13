@@ -81,10 +81,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (mapOfTasks.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Task> tasks = mapOfTasks.values().stream().collect(Collectors.toCollection(ArrayList::new));
-            tasks.forEach(task -> {
-                historyManager.add(task);
-            });
+            ArrayList<Task> tasks = new ArrayList<>(mapOfTasks.values());
+            tasks.forEach(historyManager::add);
             return tasks;
         }
     }
@@ -96,10 +94,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (mapOfEpics.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Epic> epics = mapOfEpics.values().stream().collect(Collectors.toCollection(ArrayList::new));
-            epics.forEach(epic -> {
-                historyManager.add(epic);
-            });
+            ArrayList<Epic> epics = new ArrayList<>(mapOfEpics.values());
+            epics.forEach(historyManager::add);
             return epics;
         }
     }
@@ -111,10 +107,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (mapOfSubtasks.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Subtask> subTasks = mapOfSubtasks.values().stream().collect(Collectors.toCollection(ArrayList::new));
-            subTasks.forEach(subTask -> {
-                historyManager.add(subTask);
-            });
+            ArrayList<Subtask> subTasks = new ArrayList<>(mapOfSubtasks.values());
+            subTasks.forEach(historyManager::add);
             return subTasks;
         }
     }
@@ -123,6 +117,7 @@ public class InMemoryTaskManager implements TaskManager {
     (Task)*/
     @Override
     public void removeAllTasks() {
+        mapOfTasks.keySet().forEach(historyManager::remove);
         mapOfTasks.clear();
     }
 
@@ -130,7 +125,9 @@ public class InMemoryTaskManager implements TaskManager {
     (Epic)*/
     @Override
     public void removeAllEpics() {
+        mapOfEpics.keySet().forEach(historyManager::remove);
         mapOfEpics.clear(); // очистили список эпиков
+        mapOfSubtasks.keySet().forEach(historyManager::remove);
         mapOfSubtasks.clear(); // очистили список сабтасок
     }
 
@@ -138,8 +135,9 @@ public class InMemoryTaskManager implements TaskManager {
     (SubTask)*/
     @Override
     public void removeAllSubTasks() {
+        mapOfSubtasks.keySet().forEach(historyManager::remove);
         mapOfSubtasks.clear(); //
-        for (Epic epic : getAllEpics()) { // проходим по списку эпиков и очищаем списки сабтасок в них
+        for (Epic epic : mapOfEpics.values()) { // проходим по списку эпиков и очищаем списки сабтасок в них
             epic.getSubtasks().clear();
             updateEpicStatus(epic.getTaskId());
         }
@@ -159,7 +157,6 @@ public class InMemoryTaskManager implements TaskManager {
                 subtasks.add(subtask); // сохраняем в новый массив объекты сабтаск из эпика
                 historyManager.add(subtask);
             }
-
             return subtasks; // возвращаем список сабтаск из эпика в виде массива объектов Subtask
         } else return new ArrayList<>();
     }
@@ -234,8 +231,12 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic getEpicBySubtaskId(int subTaskId) {
         Subtask subtask = mapOfSubtasks.get(subTaskId);
         if (mapOfSubtasks.containsKey(subTaskId)) {
-            int epicId = subtask.getEpicId();
-            return mapOfEpics.get(epicId);
+            // Проверяем, в каком эпике записана данная сабтаска
+           for (Epic epic : mapOfEpics.values()) {
+               if (epic.getSubtasks().contains(subTaskId)) {
+                   return epic;
+               }
+           }  return null;
         } else return null;
     }
 
@@ -247,12 +248,11 @@ public class InMemoryTaskManager implements TaskManager {
         // Обновляем эпик, если он существует в мапе эпиков
         if (epic != null) {
             // Получаем список статусов сабтасок эпика
-            ArrayList<TaskStatus> statuses = mapOfSubtasks.values().stream().collect(Collectors.toCollection(ArrayList::new))
-
-                    .stream().filter(s -> s.getEpicId() == epicId).collect(Collectors.toCollection(ArrayList::new))
-
-                    .stream().map(s -> s.getStatus()).collect(Collectors.toCollection(ArrayList::new));
-
+            ArrayList<TaskStatus> statuses = new ArrayList<>(mapOfSubtasks.values())
+                    .stream().filter(s -> s.getEpicId() == epicId).collect(Collectors.toCollection
+                            (ArrayList::new))
+                    .stream().map(Task::getStatus).collect(Collectors.toCollection
+                            (ArrayList::new));
 
             if (statuses.isEmpty()) {
                 epic.setStatus(TaskStatus.NEW);
@@ -279,6 +279,7 @@ public class InMemoryTaskManager implements TaskManager {
             switch (className) { // Определяем тип задачи по классу
                 case "Task":
                     mapOfTasks.remove(id);
+                    historyManager.remove(id);
                     break;
                 case "Subtask":
                     Epic epic = getEpicBySubtaskId(id); //получаем связанный с сабтаской эпик
@@ -289,16 +290,20 @@ public class InMemoryTaskManager implements TaskManager {
                     idOfSubtasks.remove(indexOfIdSubtask); // удаляем id сабтаски из эпика
 
                     mapOfSubtasks.remove(id); // удаляем сабтаску из списка сабтасок
+                    historyManager.remove(id); // удаляем сабтаску из истории
                     updateEpicStatus(epic.getTaskId()); // обновляем статус эпика
+                    historyManager.add(epic); // добавили в историю обновленный эпик
                     break;
 
                 case "Epic":
                     // удаляем из списка сабтасок все сабтаски, связанные с удаляемым эпиком
                     for (int idOfSubtask : ((Epic) task).getSubtasks()) {
                         mapOfSubtasks.remove(idOfSubtask);
+                        historyManager.remove(idOfSubtask);
                     }
                     // удаляем сам эпик из списка всех эпиков
                     mapOfEpics.remove(id);
+                    historyManager.remove(id); // удаляем эпик из истории
                     break;
             }
         }
