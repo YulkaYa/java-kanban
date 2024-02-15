@@ -11,4 +11,6 @@ public interface HistoryManager {
 
     // Метод возвращает список просмотренных задач
     List<Task> getHistory();
+
+    void remove(int id);
 }

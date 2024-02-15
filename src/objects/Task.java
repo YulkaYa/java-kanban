@@ -1,7 +1,6 @@
 package objects;
 
 import enums.TaskStatus;
-
 import java.util.Objects;
 
 public class Task implements Cloneable {
