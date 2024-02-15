@@ -77,11 +77,11 @@ public class InMemoryTaskManager implements TaskManager {
     /*a. Получение списка всех задач
     (Task)*/
     @Override
-    public ArrayList<Task> getAllTasks() {
+    public List<Task> getAllTasks() {
         if (mapOfTasks.isEmpty()) {
             return new ArrayList<>();
         } else {
-            ArrayList<Task> tasks = new ArrayList<>(mapOfTasks.values());
+            List<Task> tasks = new ArrayList<>(mapOfTasks.values());
             tasks.forEach(historyManager::add);
             return tasks;
         }
@@ -90,7 +90,7 @@ public class InMemoryTaskManager implements TaskManager {
     /*a. Получение списка всех задач
     (Epic)*/
     @Override
-    public ArrayList<Epic> getAllEpics() {
+    public List<Epic> getAllEpics() {
         if (mapOfEpics.isEmpty()) {
             return new ArrayList<>();
         } else {
@@ -103,7 +103,7 @@ public class InMemoryTaskManager implements TaskManager {
     /*a. Получение списка всех задач
     (SubTask)*/
     @Override
-    public ArrayList<Subtask> getAllSubTasks() {
+    public List<Subtask> getAllSubTasks() {
         if (mapOfSubtasks.isEmpty()) {
             return new ArrayList<>();
         } else {
@@ -248,7 +248,7 @@ public class InMemoryTaskManager implements TaskManager {
         // Обновляем эпик, если он существует в мапе эпиков
         if (epic != null) {
             // Получаем список статусов сабтасок эпика
-            ArrayList<TaskStatus> statuses = new ArrayList<>(mapOfSubtasks.values())
+            List<TaskStatus> statuses = new ArrayList<>(mapOfSubtasks.values())
                     .stream().filter(s -> s.getEpicId() == epicId).collect(Collectors.toCollection
                             (ArrayList::new))
                     .stream().map(Task::getStatus).collect(Collectors.toCollection

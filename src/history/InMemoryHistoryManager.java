@@ -12,9 +12,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     private final Map<Integer, Node> historyMap = new HashMap<>();
 
     private class Node<E> {
-        E data;
-        Node<E> next;
-        Node<E> prev;
+        private E data;
+        private Node<E> next;
+        private Node<E> prev;
 
         private Node(Node<E> prev, E data, Node<E> next) {
             this.data = data;
