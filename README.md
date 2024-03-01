@@ -15,6 +15,7 @@ Repository for homework project.
 | -            |Main.java | -                                                                            || enums        |TaskStatus.java | Список возможных статусов задач                                              |
 | manager      |TaskManager.java | Интерфейс менеджеров задач                                                   |
 | manager      |InMemoryTaskManager.java | реализация TaskManager для менеджера, хранящего задачи в оперативной памяти  |
+| manager      |CSVTaskFormatter.java | реализация TaskManager для менеджера, хранящего задачи в оперативной памяти  |
 | objects      | Task.java | Класс задач с типом "Задача"                                                 |
 | objects      |Subtask.java  | Класс задач с типом "Подзадач"                                               |
 | objects      |objects.Epic.java | Класс задач с типом "Эпик"                                                   |

@@ -16,8 +16,17 @@ public class Subtask extends Task {
     }
 
     @Override
+    public String toStringWithoutFieldNames() {
+        String subtask = super.toStringWithoutFieldNames();
+        subtask += this.getEpicId();
+        return subtask;
+    }
+
+    @Override
     public String toString() {
-        return "\n Subtask{" +
+        return "\n " +
+                this.getTaskType().getName() +
+                "{" +
                 "id=" + this.getTaskId() +
                 ", epicId=" + this.getEpicId() +
                 ", name=" + this.getName() + " " +
@@ -27,8 +36,7 @@ public class Subtask extends Task {
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         Subtask subTask = (Subtask) super.clone();
         return subTask;
     }

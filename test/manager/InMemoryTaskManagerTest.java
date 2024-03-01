@@ -24,7 +24,7 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     private void generateTasksForTest() {
-        taskManager = Managers.getDefault();
+        taskManager = new InMemoryTaskManager();
 
         epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         epic1Id = taskManager.createEpic(epic1);

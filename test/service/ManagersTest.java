@@ -1,6 +1,7 @@
 package service;
 
 import history.HistoryManager;
+import manager.InMemoryTaskManager;
 import manager.TaskManager;
 import objects.Epic;
 import objects.Subtask;
@@ -18,7 +19,7 @@ class ManagersTest {
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
     void managersCreatesInitializedAndReadyToWorkObjectsOfManagers()  {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
 
@@ -68,7 +69,7 @@ class ManagersTest {
 
     @Test
     void checkThatHistoryStoresOnlyLastViewOfObject()  {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
 
@@ -130,7 +131,7 @@ class ManagersTest {
 
     @Test
     void checkThatRemovedTasksDontStoredInHistory() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
 
@@ -174,7 +175,7 @@ class ManagersTest {
 
     @Test
     void checkThatAfterBulkRemovalOfTasksHistoryAlsoIsCleaned() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
         Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");

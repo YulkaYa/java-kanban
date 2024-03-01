@@ -1,6 +1,8 @@
 package objects;
 
 import enums.TaskStatus;
+import enums.TaskTypes;
+
 import java.util.Objects;
 
 public class Task implements Cloneable {
@@ -38,12 +40,37 @@ public class Task implements Cloneable {
         this.status = status;
     }
 
+    public void setStatusFromString(String status) {
+        for (TaskStatus statusEnum : TaskStatus.values()) {
+            if (statusEnum.name().equals(status)) {
+                this.setStatus(statusEnum);
+            }
+        }
+    }
+
+    // Получаем тип задачи в enum
+    public TaskTypes getTaskType() {
+        TaskTypes typeOfTask = null;
+        String typeOfTaskInString = this.getClass().getSimpleName();
+        typeOfTask = TaskTypes.valueOf(typeOfTaskInString.toUpperCase());
+        return typeOfTask;
+    }
+
     public int getTaskId() {
         return taskId;
     }
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public String toStringWithoutFieldNames() {
+        return String.format("%n%s,%s,%s,%s,%s,",
+                this.getTaskId(),
+                this.getTaskType().getName(),
+                this.getName(),
+                this.getStatus(),
+                this.getDescription());
     }
 
     @Override
@@ -61,7 +88,9 @@ public class Task implements Cloneable {
 
     @Override
     public String toString() {
-        return "\n Task{" +
+        return "\n " +
+                this.getTaskType().getName() +
+                "{" +
                 "id=" + this.taskId +
                 ", name=" + this.name + " " +
                 ", description=" + this.description + " " +
@@ -70,8 +99,7 @@ public class Task implements Cloneable {
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         try {
             Task task = (Task) super.clone();
             return task;

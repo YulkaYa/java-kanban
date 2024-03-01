@@ -2,7 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 
-public class Epic extends Task  {
+public class Epic extends Task {
 
     private ArrayList<Integer> subtasks;
 
@@ -20,8 +20,17 @@ public class Epic extends Task  {
     }
 
     @Override
+    public String toStringWithoutFieldNames() {
+        String epic = super.toStringWithoutFieldNames();
+        epic += this.getSubtasks();
+        return epic;
+    }
+
+    @Override
     public String toString() {
-        return "\n Epic{" +
+        return "\n " +
+                this.getTaskType().getName() +
+                "{" +
                 "id=" + this.getTaskId() +
                 ", name=" + this.getName() + " " +
                 ", description=" + this.getDescription() + " " +
@@ -31,10 +40,9 @@ public class Epic extends Task  {
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         Epic epic = (Epic) super.clone();
-        ArrayList<Integer> subtasksToClone = (ArrayList<Integer> )this.getSubtasks().clone();
+        ArrayList<Integer> subtasksToClone = (ArrayList<Integer>) this.getSubtasks().clone();
         epic.setSubtasks(subtasksToClone);
         return epic;
     }
