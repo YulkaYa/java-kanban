@@ -8,53 +8,70 @@ import objects.Task;
 import service.Managers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
-    protected final HashMap<Integer, Task> mapOfTasks = new HashMap<>();
+    private final HashMap<Integer, Task> mapOfTasks = new HashMap<>();
     private final HashMap<Integer, Subtask> mapOfSubtasks = new HashMap<>();
     private final HashMap<Integer, Epic> mapOfEpics = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int taskId = 0;
 
-    public int getTaskId() {
+    protected int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    protected int setTaskId() {
+        taskId++;
+        return taskId;
+    }
+    protected int setTaskId(int taskIdToAdd) {
+        boolean isIdAbsentInAnyMap = false;
+
+        if (taskIdToAdd == 0) { // Если id = 0,то меняем сохраняем новый id из счетчика
+            setTaskId();
+            taskIdToAdd = taskId;
+        }
+        while (!isIdAbsentInAnyMap) {
+            isIdAbsentInAnyMap = whichMapContainsTask(taskIdToAdd).isEmpty(); // Проверим, есть ли уже такой id в мапах
+            if (isIdAbsentInAnyMap) { // Если такого id нет, то не изменяем его
+                break;
+            } else {
+                setTaskId();
+                taskIdToAdd = taskId;
+            }
+        }
+        return taskIdToAdd;
     }
 
     // Методы для получения мап с задачами без изменения истории просмотра
-    public HashMap<Integer, Epic> getMapOfEpics() {
+    protected HashMap<Integer, Epic> getMapOfEpics() {
         return mapOfEpics;
     }
 
-    public HashMap<Integer, Task> getMapOfTasks() {
+    protected HashMap<Integer, Task> getMapOfTasks() {
         return mapOfTasks;
     }
 
-    public HashMap<Integer, Subtask> getMapOfSubtasks() {
+    protected HashMap<Integer, Subtask> getMapOfSubtasks() {
         return mapOfSubtasks;
     }
 
     /*    d. Создание. Сам объект должен передаваться в качестве параметра.
         с типом Task*/
     @Override
-    public int createTask(Task task) {
+        public int createTask(Task task) {
         boolean isTask = task.getClass().getSimpleName().equals("Task");
-        boolean isTaskInMap = (mapOfTasks.containsValue(task) ||
-                mapOfSubtasks.containsValue((task)) ||
-                mapOfEpics.containsValue(task));
         // Проверяем, что сохраняем объект Task, а не наследника класса, а также, что такой таски нет в мапе
-        if (isTask && !isTaskInMap) {
-            taskId++; // вычисляем id для новой таски
-            task.setTaskId(taskId); // присваиваем id таске
+        if (isTask) {
+            int id = setTaskId(task.getTaskId());
+            task.setTaskId(id); // присваиваем id таске
             task.setStatus(TaskStatus.NEW);
-            mapOfTasks.put(taskId, task); // сохраняем таску в список всех таск
-            return taskId;
+            mapOfTasks.put(id, task); // сохраняем таску в список всех таск
+            return id;
         } else return 0;
     }
 
@@ -62,20 +79,16 @@ public class InMemoryTaskManager implements TaskManager {
         Создание задачи с типом subtask*/
     @Override
     public int createSubTask(Subtask subtask, Epic epic) {
-        boolean isSubTaskInMap = (mapOfTasks.containsValue(subtask) ||
-                mapOfSubtasks.containsValue((subtask)) ||
-                mapOfEpics.containsValue(subtask));
         boolean isEpicInMap = mapOfEpics.containsValue(epic);
         // Проверяем, что эпик есть в мапе эпиков, а сабтаски еще нет в мапе сабтаск, иначе не добавляем сабтаску в мапу
-        if (isEpicInMap && !isSubTaskInMap) {
-            taskId++; // вычисляем id для новой сабтаски
-            subtask.setTaskId(taskId); // присваиваем id сабтаски
-            subtask.setStatus(TaskStatus.NEW);
+        if (isEpicInMap) {
+            int id = setTaskId(subtask.getTaskId());
+            subtask.setTaskId(id); // присваиваем id сабтаски
             subtask.setEpicId(epic.getTaskId()); // сохраняем в объект сабтаски id связанного эпика
-            epic.getSubtasks().add(taskId); // сохраняем сабтаску в epic
-            mapOfSubtasks.put(taskId, subtask); // сохраняем сабтаску в список всех сабтаск
+            epic.getSubtasks().add(id); // сохраняем сабтаску в epic
+            mapOfSubtasks.put(id, subtask); // сохраняем сабтаску в список всех сабтаск
             updateEpicStatus(epic.getTaskId()); // Обновляем статус эпика
-            return taskId;
+            return id;
         } else return 0;
     }
 
@@ -83,18 +96,15 @@ public class InMemoryTaskManager implements TaskManager {
     Создание задачи с типом Epic*/
     @Override
     public int createEpic(Epic epic) {
-        boolean isEpicInMap = (mapOfTasks.containsValue(epic) ||
-                mapOfSubtasks.containsValue((epic)) ||
-                mapOfEpics.containsValue(epic));
         ArrayList<Integer> subtasksInEpic = epic.getSubtasks();
         // Если эпик не содержит сабтаск и эпика еще нет в мапе эпиков, то сохраняем его, иначе не сохраняем эпик, так
         // как обновление объектов делаем через update
-        if (subtasksInEpic.isEmpty() && !isEpicInMap) {
-            taskId++; // вычисляем id для нового эпика
-            epic.setTaskId(taskId); // присваиваем id эпику
+        if (subtasksInEpic.isEmpty()) {
+            int id = setTaskId(epic.getTaskId()); // вычисляем id для нового эпика
+            epic.setTaskId(id); // присваиваем id эпику
             epic.setStatus(TaskStatus.NEW);
-            mapOfEpics.put(taskId, epic); // сохраняем эпик в список всех эпиков
-            return taskId;
+            mapOfEpics.put(id, epic); // сохраняем эпик в список всех эпиков
+            return id;
         } else {
             return 0;
         }
@@ -319,7 +329,6 @@ public class InMemoryTaskManager implements TaskManager {
                     mapOfSubtasks.remove(id); // удаляем сабтаску из списка сабтасок
                     historyManager.remove(id); // удаляем сабтаску из истории
                     updateEpicStatus(epic.getTaskId()); // обновляем статус эпика
-                    historyManager.add(epic); // добавили в историю обновленный эпик
                     break;
 
                 case "Epic":
@@ -379,6 +388,6 @@ public class InMemoryTaskManager implements TaskManager {
             return mapOfTasks;
         } else if (mapOfSubtasks.containsKey(id)) {
             return mapOfSubtasks;
-        } else return null;
+        } else return new HashMap<>();
     }
 }

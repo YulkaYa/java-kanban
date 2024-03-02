@@ -23,7 +23,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private final HashMap<Integer, Subtask> mapOfSubtasksInFile = getMapOfSubtasks();
     private final HashMap<Integer, Epic> mapOfEpicsInFile = getMapOfEpics();
     private final HistoryManager historyManager = getHistoryManager();
-    private int taskId = getTaskId();
+
     private File fileName = null;
 
     public FileBackedTaskManager(File fileName) {
@@ -49,15 +49,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 // Добавляем задачу в соответствующую мапу
                 switch (taskToAdd.getTaskType()) {
                     case TASK: {
-                        fileBackedTaskManager.mapOfTasksInFile.put(taskToAdd.getTaskId(), taskToAdd);
+                        fileBackedTaskManager.createTask(taskToAdd);
                         break;
                     }
                     case SUBTASK: {
-                        fileBackedTaskManager.mapOfSubtasksInFile.put(taskToAdd.getTaskId(), (Subtask) taskToAdd);
+                        int epicId = ((Subtask) taskToAdd).getEpicId();
+                        Epic epicForSubtask = fileBackedTaskManager.mapOfEpicsInFile.get(epicId);
+                        fileBackedTaskManager.createSubTask(((Subtask) taskToAdd), epicForSubtask);
                         break;
                     }
                     case EPIC: {
-                        fileBackedTaskManager.mapOfEpicsInFile.put(taskToAdd.getTaskId(), (Epic) taskToAdd);
+                        fileBackedTaskManager.createEpic((Epic) taskToAdd);
                         break;
                     }
                 }
@@ -70,7 +72,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 List<Task> historyFromCSV = CSVTaskFormatter.historyFromString(history);
                 historyFromCSV.forEach(fileBackedTaskManager.historyManager::add);
             }
-            fileBackedTaskManager.generateTaskId(); // Устанавливаем taskId = максимальному ID из всех мап
+           fileBackedTaskManager.generateTaskIdAfterLoad(); // Устанавливаем taskId = максимальному ID из всех мап
 
             return fileBackedTaskManager;
         } catch (IOException e) {
@@ -80,23 +82,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public int createTask(Task task) {
-        taskId = super.createTask(task);
+        int newTaskId = super.createTask(task);
         save();
-        return taskId;
+        return newTaskId;
     }
 
     @Override
     public int createSubTask(Subtask subtask, Epic epic) {
-        taskId = super.createSubTask(subtask, epic);
+        int newTaskId = super.createSubTask(subtask, epic);
         save();
-        return taskId;
+        return newTaskId;
     }
 
     @Override
     public int createEpic(Epic epic) {
-        taskId = super.createEpic(epic);
+        int newTaskId = super.createEpic(epic);
         save();
-        return taskId;
+        return newTaskId;
     }
 
     @Override
@@ -181,7 +183,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     // Метод для генерации taskId начиная с уже существующего максимального значения
-    private void generateTaskId() {
+    private void generateTaskIdAfterLoad() {
         int maxId = 0;
         int maxIdInMap = 0;
         if (!mapOfEpicsInFile.isEmpty()) {
@@ -204,8 +206,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 maxId = maxIdInMap;
             }
         }
-        taskId = maxId;
-        setTaskId(taskId);
+        setTaskId(maxId);
     }
-
 }

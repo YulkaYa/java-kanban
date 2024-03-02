@@ -38,12 +38,4 @@ public class Epic extends Task {
                 ", сабтаски=" + this.getSubtasks() +
                 '}';
     }
-
-    @Override
-    public Object clone() {
-        Epic epic = (Epic) super.clone();
-        ArrayList<Integer> subtasksToClone = (ArrayList<Integer>) this.getSubtasks().clone();
-        epic.setSubtasks(subtasksToClone);
-        return epic;
-    }
 }

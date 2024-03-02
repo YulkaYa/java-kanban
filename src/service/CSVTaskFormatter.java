@@ -39,7 +39,8 @@ public class CSVTaskFormatter {
     // Метод возвращает объект Task с помощью преобразования строки с данными о задаче
     public static Task taskFromString(String value) {
         value = value.replaceAll("\n|\r", "");
-        // Делим строку на 2 части, 1я-общая инфа от таске, 2я-сабтаски эпика(если есть)
+        // Делим строку на 2 части, 1я-общая инфа от задаче, 2я-сабтаски эпика(если есть).2-ю часть далее отбрасываем,
+        // т.к. восстанавливать сабтаски будем на основе epicId  в самих сабтасках
         String[] stringsToCreateTask = value.split("\\[");
         String[] splittedFields = stringsToCreateTask[0].split(",");
 
@@ -48,12 +49,6 @@ public class CSVTaskFormatter {
         switch (typeInUpperCase) {
             case ("EPIC"): {
                 taskToReturn = new Epic(splittedFields[2], splittedFields[4]);
-
-                String subTasksInString = stringsToCreateTask[1].replaceAll(" ", "");
-                String[] subtasks = subTasksInString.split(",|]");
-                ArrayList<Integer> subTasksList = new ArrayList<>();
-                List.of(subtasks).forEach(t -> subTasksList.add(Integer.parseInt(t)));
-                ((Epic) taskToReturn).setSubtasks(subTasksList);
                 break;
             }
             case ("TASK"): {

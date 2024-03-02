@@ -57,3 +57,5 @@ G
 src/resources/tasks.csv,c\2\c2ff60fe1c71246ac8e6418fd111e1bf95e65898
 Q
 !src/service/CSVTaskFormatter.java,4\d\4d6d70d3522d58cc1b3bc54fa42e8aa043399424
+[
++test/manager/FileBackedTaskManagerTest.java,1\4\14389555cd835c7f7d0f9ec5b25f764a27b89a9f

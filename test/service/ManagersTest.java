@@ -151,13 +151,12 @@ class ManagersTest {
         assertEquals(2, history.get(1).getTaskId(), "Неверый id задач в истории.");
         assertEquals(3, history.get(2).getTaskId(), "Неверый id задач в истории.");
 
-
         taskManager.removeById(2);
         history = taskManager.getHistory();
 
         assertEquals(2, history.size(), "Неверное количество задач в истории.");
-        assertEquals(3, history.get(0).getTaskId(), "Неверый id задач в истории.");
-        assertEquals(1, history.get(1).getTaskId(), "Неверый id задач в истории.");
+        assertEquals(1, history.get(0).getTaskId(), "Неверый id задач в истории.");
+        assertEquals(3, history.get(1).getTaskId(), "Неверый id задач в истории.");
 
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         int subtask2id = taskManager.createSubTask(subtask2, epic1);

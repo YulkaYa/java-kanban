@@ -34,10 +34,4 @@ public class Subtask extends Task {
                 ", status=" + this.getStatus() +
                 '}';
     }
-
-    @Override
-    public Object clone() {
-        Subtask subTask = (Subtask) super.clone();
-        return subTask;
-    }
 }

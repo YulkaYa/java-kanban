@@ -97,15 +97,4 @@ public class Task implements Cloneable {
                 ", status=" + this.status +
                 '}';
     }
-
-    @Override
-    public Object clone() {
-        try {
-            Task task = (Task) super.clone();
-            return task;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
 }

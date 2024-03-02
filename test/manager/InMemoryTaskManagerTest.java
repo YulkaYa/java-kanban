@@ -169,10 +169,10 @@ class InMemoryTaskManagerTest {
         assertEquals(1, tasks.size(), "Неверное количество задач.");
         assertEquals(1, epic2.getSubtasks().size(), "Неверное количество сабтаск в эпике");
 
-        assertEquals(4, epics.get(0).getTaskId(), "эпик сохранен с некорректным id");
-        assertEquals(5, subtasks.get(0).getTaskId(), "сабтаска сохранена с некорректным id");
-        assertEquals(6, tasks.get(0).getTaskId(), "таска сохранена с некорректным id");
-        assertEquals(5, epic2.getSubtasks().get(0), "в эпике сохранена сабтаска с " +
+        assertEquals(100, epics.get(0).getTaskId(), "эпик сохранен с некорректным id");
+        assertEquals(101, subtasks.get(0).getTaskId(), "сабтаска сохранена с некорректным id");
+        assertEquals(102, tasks.get(0).getTaskId(), "таска сохранена с некорректным id");
+        assertEquals(101, epic2.getSubtasks().get(0), "в эпике сохранена сабтаска с " +
                 "несуществующим id");
     }
 
@@ -309,10 +309,10 @@ class InMemoryTaskManagerTest {
         List<Epic> epics = taskManager.getAllEpics();
         List<Subtask> subtasks = taskManager.getAllSubTasks();
 
-        // Проверили, что при создании сабтаски старый статус сабтаски меняется на NEW
-        assertEquals(TaskStatus.NEW, epics.get(0).getStatus(), "Неверный статус эпика");
+        // Проверили, что при создании сабтаски старый статус сабтаски  не меняется на NEW
+        assertEquals(TaskStatus.IN_PROGRESS, epics.get(0).getStatus(), "Неверный статус эпика");
         assertEquals(TaskStatus.NEW, subtasks.get(0).getStatus(), "Неверный статус сабтаски");
-        assertEquals(TaskStatus.NEW, subtasks.get(1).getStatus(), "Неверный статус " +
+        assertEquals(TaskStatus.IN_PROGRESS, subtasks.get(1).getStatus(), "Неверный статус " +
                 "сабтаски");
 
         // Изменим статус 1-ой сабтаски на DONE -> статус эпика IN_PROGRESS
@@ -321,7 +321,7 @@ class InMemoryTaskManagerTest {
         assertEquals(TaskStatus.IN_PROGRESS, epics.get(0).getStatus(), "Неверный статус эпика");
         assertEquals(TaskStatus.DONE, subtasks.get(0).getStatus(), "Неверный статус " +
                 "сабтаски");
-        assertEquals(TaskStatus.NEW, subtasks.get(1).getStatus(), "Неверный статус сабтаски");
+        assertEquals(TaskStatus.IN_PROGRESS, subtasks.get(1).getStatus(), "Неверный статус сабтаски");
 
         // Удалим сабтаску по ID и проверим статус эпика -> NEW,
         // а также проверим, что сабтаска удалена из эпика и списка сабтаск
@@ -338,8 +338,8 @@ class InMemoryTaskManagerTest {
         assertEquals(subtask2, subtasks.get(0), "Неверное количество сабтаск.");
         assertEquals(1, tasks.size(), "Неверное количество таск.");
 
-        assertEquals(TaskStatus.NEW, epics.get(0).getStatus(), "Неверный статус эпика");
-        assertEquals(TaskStatus.NEW, subtasks.get(0).getStatus(), "Неверный статус " +
+        assertEquals(TaskStatus.IN_PROGRESS, epics.get(0).getStatus(), "Неверный статус эпика");
+        assertEquals(TaskStatus.IN_PROGRESS, subtasks.get(0).getStatus(), "Неверный статус " +
                 "сабтаски");
     }
 
