@@ -45,7 +45,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
 
                 Task taskToAdd = CSVTaskFormatter.taskFromString(task); // Восстанавливаем объект задачи из строки
-
                 // Добавляем задачу в соответствующую мапу
                 switch (taskToAdd.getTaskType()) {
                     case TASK: {
@@ -65,14 +64,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
 
-            // Восстанавливем историю из оставшейся части списка строк
+            // Восстанавливаем историю из оставшейся части списка строк
             if (tasksAndHistory.length - indexOfHistory != 0) {
                 String[] history = Arrays.copyOfRange(tasksAndHistory, indexOfHistory + 1,
                         tasksAndHistory.length);
                 List<Task> historyFromCSV = CSVTaskFormatter.historyFromString(history);
                 historyFromCSV.forEach(fileBackedTaskManager.historyManager::add);
             }
-           fileBackedTaskManager.generateTaskIdAfterLoad(); // Устанавливаем taskId = максимальному ID из всех мап
+            fileBackedTaskManager.generateTaskIdAfterLoad(); // Устанавливаем taskId = максимальному ID из всех мап
 
             return fileBackedTaskManager;
         } catch (IOException e) {

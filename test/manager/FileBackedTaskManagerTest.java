@@ -1,14 +1,11 @@
 package manager;
 
 import enums.TaskStatus;
-import history.HistoryManager;
 import objects.Epic;
 import objects.Subtask;
 import objects.Task;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.CSVTaskFormatter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,13 +13,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTaskManagerTest {
     File tempFile;
-    FileBackedTaskManager fileBackedTaskManager;
 
     @BeforeEach
     private void generateTasksForTest() throws IOException {

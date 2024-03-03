@@ -2,11 +2,10 @@ package enums;
 
 
 public enum TaskTypes {
-    TASK ("Task" ),
-    EPIC ("Epic"),
-    SUBTASK ("Subtask");
+    TASK("Task"), EPIC("Epic"), SUBTASK("Subtask");
 
     private String type;
+
     TaskTypes(String type) {
         this.type = type;
     }
