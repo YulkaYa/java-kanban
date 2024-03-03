@@ -284,10 +284,10 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             // Получаем список статусов сабтасок эпика
             List<TaskStatus> statuses = new ArrayList<>(mapOfSubtasks.values())
-                    .stream().filter(s -> s.getEpicId() == epicId).collect(Collectors.toCollection
-                            (ArrayList::new))
-                    .stream().map(Task::getStatus).collect(Collectors.toCollection
-                            (ArrayList::new));
+                    .stream().filter(s -> s.getEpicId() == epicId).collect(Collectors.toCollection(
+                            ArrayList::new))
+                    .stream().map(Task::getStatus).collect(Collectors.toCollection(
+                            ArrayList::new));
 
             if (statuses.isEmpty()) {
                 epic.setStatus(TaskStatus.NEW);
