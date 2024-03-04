@@ -5,7 +5,7 @@ import enums.TaskTypes;
 
 import java.util.Objects;
 
-public class Task implements Cloneable {
+public class Task {
     private int taskId;
     private String name;
     private String description;
