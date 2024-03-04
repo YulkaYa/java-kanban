@@ -37,7 +37,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что экземпляры класса Task равны друг другу, если равен их id (Task);
     @Test
-    void addNewTaskAndCheckEqualityById() {
+    private void addNewTaskAndCheckEqualityById() {
         // Создаем задачи с одинаковым id
         Task taskWithSameId = new Task("taskWithSameId", " description of taskWithSameId");
         taskWithSameId.setTaskId(task1id);
@@ -54,7 +54,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что наследники класса Task равны друг другу, если равен их id (SubTask);
     @Test
-    void addNewSubTaskAndCheckEqualityById() {
+    private void addNewSubTaskAndCheckEqualityById() {
         Subtask taskWithSameId = new Subtask("taskWithSameId", " description of taskWithSameId");
         taskWithSameId.setTaskId(subtask1id);
 
@@ -71,7 +71,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что наследники класса Task равны друг другу, если равен их id (Epic);
     @Test
-    void addNewEpicAndCheckEqualityById() {
+    private void addNewEpicAndCheckEqualityById() {
         Epic taskWithSameId = new Epic("taskWithSameId", " description of taskWithSameId");
         taskWithSameId.setTaskId(epic1Id);
 
@@ -87,7 +87,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
     @Test
-    void cantAddEpicInEpicAsSubtaskTest() {
+    private void cantAddEpicInEpicAsSubtaskTest() {
         Subtask subtask2 = new Subtask("subtask", "subtask description in cantAddEpicInEpicAsSubtaskTest");
 
         subtask2.setTaskId(epic1Id); // Присвоили эпикID эпика сабтаске
@@ -108,7 +108,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что объект Subtask с несуществующим id не добавится в список сабтаск
     @Test
-    void cantUpdateSubtaskIfItAbsentInMapTest() {
+    private void cantUpdateSubtaskIfItAbsentInMapTest() {
 
         Subtask subtask2 = new Subtask("subtask2", "cantUpdateSubtaskIfItAbsentInMapTest");
         subtask2.setTaskId(1000); //  установим несуществующий idсабтаски
@@ -145,7 +145,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера;
     @Test
-    void tasksAreCreatedWithNewId() {
+    private void tasksAreCreatedWithNewId() {
         taskManager.removeAllSubTasks();
         taskManager.removeAllTasks();
         taskManager.removeAllEpics();
@@ -177,7 +177,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что объект Subtask нельзя сделать своим же эпиком
     @Test
-    void cantUpdateSubtaskIfEpicidIsSameAsSomeSubtask() {
+    private void cantUpdateSubtaskIfEpicidIsSameAsSomeSubtask() {
         Subtask subtask2 = new Subtask("subtask", "tasksAreCreatedWithNewId");
 
         subtask2.setEpicId(subtask1id);
@@ -203,7 +203,7 @@ class InMemoryTaskManagerTest {
 
     // проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
     @Test
-    void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem() {
+    private void inMemoryTaskManagerAddsTasksOfDifferentTypesAndCanFindThem() {
         List<Epic> epics = taskManager.getAllEpics();
         List<Subtask> subtasks = taskManager.getAllSubTasks();
         List<Task> tasks = taskManager.getAllTasks();
@@ -224,7 +224,7 @@ class InMemoryTaskManagerTest {
 
     // Проверяем удаление всех задач и списков после этого
     @Test
-    void removeAllEpicsAndTasksAndSubTasks() {
+    private void removeAllEpicsAndTasksAndSubTasks() {
 
         taskManager.removeAllSubTasks();
         List<Epic> epics = taskManager.getAllEpics();
@@ -253,7 +253,7 @@ class InMemoryTaskManagerTest {
 
     // Проверим, что статус эпика меняется вслед за сабтасками в нем
     @Test
-    void checkStatusOfEpic() {
+    private void checkStatusOfEpic() {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
         List<Epic> epics = taskManager.getAllEpics();
@@ -300,7 +300,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void checkRemoveOfSubtaskAndUpdateOfEpicStatus() {
+    private void checkRemoveOfSubtaskAndUpdateOfEpicStatus() {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         // Установили статус сабтаски2 = IN_PROGRESS
         subtask2.setStatus(TaskStatus.IN_PROGRESS);
@@ -344,7 +344,7 @@ class InMemoryTaskManagerTest {
 
     // Проверка удаления сабтасок при удалении эпика
     @Test
-    void checkRemoveOfEpicAndSubTasksAfterItsRemove() {
+    private void checkRemoveOfEpicAndSubTasksAfterItsRemove() {
         Epic epic2 = new Epic("эпик2", "эпика2 дескрипшн");
         taskManager.createEpic(epic2);
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
@@ -370,7 +370,7 @@ class InMemoryTaskManagerTest {
 
     // Проверим, что можем получить все объекты сабтаск эпика, имея его id
     @Test
-    void checkThatWeCanGetSubtasksObjectsByEpic() {
+    private void checkThatWeCanGetSubtasksObjectsByEpic() {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
 
@@ -384,7 +384,7 @@ class InMemoryTaskManagerTest {
 
     @Test
         // Внутри эпиков не должно оставаться неактуальных id подзадач.
-    void checkRemoveOfIdSubtasksFromEpicsAfterSubtaskBeingRemoved() {
+    private void checkRemoveOfIdSubtasksFromEpicsAfterSubtaskBeingRemoved() {
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         taskManager.createSubTask(subtask2, epic1);
 
@@ -412,7 +412,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void checkIfSubtaskIsUpdatedAndNewEpicIsNotEqualWithOld() {
+    private void checkIfSubtaskIsUpdatedAndNewEpicIsNotEqualWithOld() {
         Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");
         int epic2Id = taskManager.createEpic(epic2);
 
@@ -451,7 +451,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void checkIfEpicIsUpdated() {
+    private void checkIfEpicIsUpdated() {
         Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");
         epic2.setTaskId(epic1Id);
 

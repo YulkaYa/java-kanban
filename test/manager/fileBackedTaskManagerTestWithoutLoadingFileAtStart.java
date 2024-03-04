@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
     @Test
         // Проверка загрузки и сохранения пустого файла и что все менеджеры проинициализированы корректно
-    void fileBackedTaskManagerTestCorrectInitializationOfManagersFromEmptyFile() throws IOException {
+    private void fileBackedTaskManagerTestCorrectInitializationOfManagersFromEmptyFile() throws IOException {
         File tempFile = File.createTempFile("test", ".csv");
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
         HashMap<Integer,Task> tasks = fileBackedTaskManager.getMapOfTasks();
@@ -32,7 +32,7 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
 
     // Проверка сохранения пустого менеджера в файл
     @Test
-    void fileBackedTaskManagerTestWithoutLoadingFileAtStart() {
+    private void fileBackedTaskManagerTestWithoutLoadingFileAtStart() {
         File tempFile = null;
         tempFile = new File("src/resources/tempFile.csv");
         try {
@@ -46,7 +46,7 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
     }
 
     @Test
-    void createTasksAndCheckFile() throws IOException {
+    private void createTasksAndCheckFile() throws IOException {
         File fileToSave = File.createTempFile("test", ".csv");
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(fileToSave);
 

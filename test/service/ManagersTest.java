@@ -16,7 +16,7 @@ class ManagersTest {
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
-    void managersCreatesInitializedAndReadyToWorkObjectsOfManagers()  {
+    private void managersCreatesInitializedAndReadyToWorkObjectsOfManagers()  {
         TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
@@ -42,7 +42,7 @@ class ManagersTest {
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
-    void managersCreatesInitializedAndReadyToWorkObjectsOfHistoryManagers()  {
+    private void managersCreatesInitializedAndReadyToWorkObjectsOfHistoryManagers()  {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
@@ -66,7 +66,7 @@ class ManagersTest {
     }
 
     @Test
-    void checkThatHistoryStoresOnlyLastViewOfObject()  {
+    private void checkThatHistoryStoresOnlyLastViewOfObject()  {
         TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
@@ -128,7 +128,7 @@ class ManagersTest {
     }
 
     @Test
-    void checkThatRemovedTasksDontStoredInHistory() {
+    private void checkThatRemovedTasksDontStoredInHistory() {
         TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
@@ -171,7 +171,7 @@ class ManagersTest {
 
 
     @Test
-    void checkThatAfterBulkRemovalOfTasksHistoryAlsoIsCleaned() {
+    private void checkThatAfterBulkRemovalOfTasksHistoryAlsoIsCleaned() {
         TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);

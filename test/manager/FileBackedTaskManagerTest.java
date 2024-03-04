@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTaskManagerTest {
-    File tempFile;
+    private File tempFile;
 
     @BeforeEach
     private void generateTasksForTest() throws IOException {
@@ -51,7 +51,7 @@ class FileBackedTaskManagerTest {
 
 
     @Test
-    void loadFromFileIfFileIsCorrect() {
+    private void loadFromFileIfFileIsCorrect() {
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
         HashMap<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
         HashMap<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
@@ -82,7 +82,7 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
-    void createTasksAndCheckFile() throws IOException {
+    private void createTasksAndCheckFile() throws IOException {
         File fileToSave = File.createTempFile("test", ".csv");
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(fileToSave);
 
@@ -155,7 +155,7 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
-    void checkThatAfterLoadCanWorkWithFileManagerAndCanManageAnotherTasks() {
+    private void checkThatAfterLoadCanWorkWithFileManagerAndCanManageAnotherTasks() {
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
         Epic epic = new Epic("эпик", "эпик дескрипшн");
         int epicId = fileBackedTaskManager.createEpic(epic);

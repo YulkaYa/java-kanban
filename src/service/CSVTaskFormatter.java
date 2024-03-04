@@ -9,6 +9,7 @@ import objects.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CSVTaskFormatter {
@@ -19,8 +20,8 @@ public class CSVTaskFormatter {
     }
 
     // Метод возвращает в строчном формате содержимое всех мап с задачами и историю задач
-    public static String tasksAndHistoryToString(HashMap<Integer, Task> tasks, HashMap<Integer,
-            Subtask> subtasks, HashMap<Integer, Epic> epics, HistoryManager historyManager) {
+    public static String tasksAndHistoryToString(Map<Integer, Task> tasks, Map<Integer,
+            Subtask> subtasks, Map<Integer, Epic> epics, HistoryManager historyManager) {
 
         StringBuilder builder = new StringBuilder("id,type,name,status,description,epic,subtasks");
         tasks.values().forEach(t -> builder.append(taskToString(t))); // Добавили все таски в StringBuilder
@@ -63,7 +64,7 @@ public class CSVTaskFormatter {
                     break;
                 }
                 default:
-                    break;
+                    throw new ManagerSaveException("Ошибка в методе taskFromString");
             }
             taskToReturn.setTaskId(Integer.parseInt(splittedFields[0]));
             taskToReturn.setStatusFromString(splittedFields[3]);

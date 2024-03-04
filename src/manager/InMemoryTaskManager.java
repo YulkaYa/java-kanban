@@ -10,6 +10,7 @@ import service.Managers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -25,6 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     protected int setTaskId() {
         taskId++;
+        setTaskId(taskId);
         return taskId;
     }
 
@@ -39,8 +41,7 @@ public class InMemoryTaskManager implements TaskManager {
             if (isIdAbsentInAnyMap) { // Если такого id нет, то не изменяем его
                 break;
             } else {
-                setTaskId();
-                taskIdToAdd = taskId;
+                taskIdToAdd = setTaskId();
             }
         }
         return taskIdToAdd;
@@ -306,7 +307,7 @@ public class InMemoryTaskManager implements TaskManager {
     //f. Удаление по идентификатору.
     @Override
     public void removeById(int id) {
-        HashMap<Integer, ? extends Task> mapOfAnyTasks = whichMapContainsTask(id);
+        Map<Integer, ? extends Task> mapOfAnyTasks = whichMapContainsTask(id);
         if (mapOfAnyTasks != null) {
             Task task = mapOfAnyTasks.get(id);
             String className = task.getClass().getSimpleName();
@@ -346,7 +347,7 @@ public class InMemoryTaskManager implements TaskManager {
     // c. Получение по идентификатору (любой тип задачи).
     @Override
     public Task getTaskById(int id) {
-        HashMap<Integer, ? extends Task> map = whichMapContainsTask(id);
+        Map<Integer, ? extends Task> map = whichMapContainsTask(id);
         if (map != null) {
             Task task = map.get(id);
             historyManager.add(task);
@@ -379,7 +380,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // Метод для поиска мапы, к которой относится задача
-    public HashMap<Integer, ? extends Task> whichMapContainsTask(int id) {
+    public Map<Integer, ? extends Task> whichMapContainsTask(int id) {
         if (mapOfEpics.containsKey(id)) {
             return mapOfEpics;
         } else if (mapOfTasks.containsKey(id)) {

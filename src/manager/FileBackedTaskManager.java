@@ -12,16 +12,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private final HashMap<Integer, Task> mapOfTasksInFile = getMapOfTasks();
-    private final HashMap<Integer, Subtask> mapOfSubtasksInFile = getMapOfSubtasks();
-    private final HashMap<Integer, Epic> mapOfEpicsInFile = getMapOfEpics();
+    private final Map<Integer, Task> mapOfTasksInFile = getMapOfTasks();
+    private final Map<Integer, Subtask> mapOfSubtasksInFile = getMapOfSubtasks();
+    private final Map<Integer, Epic> mapOfEpicsInFile = getMapOfEpics();
     private final HistoryManager historyManager = getHistoryManager();
 
     private File fileName = null;
@@ -60,6 +57,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case EPIC: {
                         fileBackedTaskManager.createEpic((Epic) taskToAdd);
                         break;
+                    }
+                    default: {
+                        throw new ManagerSaveException("Ошибка в методе taskFromString");
                     }
                 }
             }
