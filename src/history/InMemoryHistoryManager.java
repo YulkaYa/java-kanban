@@ -89,15 +89,14 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        Task taskToAddInHistory = (Task) task.clone();
 
         // Если в истории уже есть запись с id, то удаляем и перезаписываем ее
-        if (historyMap.containsKey(taskToAddInHistory.getTaskId())) {
-            Node<Task> nodeTask = historyMap.get(taskToAddInHistory.getTaskId());
+        if (historyMap.containsKey(task.getTaskId())) {
+            Node<Task> nodeTask = historyMap.get(task.getTaskId());
             removeNode(nodeTask);
         }
-        linkLast(taskToAddInHistory);
-        historyMap.put(taskToAddInHistory.getTaskId(), last);
+        linkLast(task);
+        historyMap.put(task.getTaskId(), last);
     }
 
     @Override

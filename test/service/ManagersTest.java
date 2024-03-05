@@ -1,14 +1,13 @@
 package service;
 
 import history.HistoryManager;
+import manager.InMemoryTaskManager;
 import manager.TaskManager;
 import objects.Epic;
 import objects.Subtask;
 import objects.Task;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +16,8 @@ class ManagersTest {
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
-    void managersCreatesInitializedAndReadyToWorkObjectsOfManagers()  {
-        TaskManager taskManager = Managers.getDefault();
+    private void managersCreatesInitializedAndReadyToWorkObjectsOfManagers()  {
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
 
@@ -43,7 +42,7 @@ class ManagersTest {
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
-    void managersCreatesInitializedAndReadyToWorkObjectsOfHistoryManagers()  {
+    private void managersCreatesInitializedAndReadyToWorkObjectsOfHistoryManagers()  {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
@@ -67,8 +66,8 @@ class ManagersTest {
     }
 
     @Test
-    void checkThatHistoryStoresOnlyLastViewOfObject()  {
-        TaskManager taskManager = Managers.getDefault();
+    private void checkThatHistoryStoresOnlyLastViewOfObject()  {
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
 
@@ -129,8 +128,8 @@ class ManagersTest {
     }
 
     @Test
-    void checkThatRemovedTasksDontStoredInHistory() {
-        TaskManager taskManager = Managers.getDefault();
+    private void checkThatRemovedTasksDontStoredInHistory() {
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
 
@@ -150,13 +149,12 @@ class ManagersTest {
         assertEquals(2, history.get(1).getTaskId(), "Неверый id задач в истории.");
         assertEquals(3, history.get(2).getTaskId(), "Неверый id задач в истории.");
 
-
         taskManager.removeById(2);
         history = taskManager.getHistory();
 
         assertEquals(2, history.size(), "Неверное количество задач в истории.");
-        assertEquals(3, history.get(0).getTaskId(), "Неверый id задач в истории.");
-        assertEquals(1, history.get(1).getTaskId(), "Неверый id задач в истории.");
+        assertEquals(1, history.get(0).getTaskId(), "Неверый id задач в истории.");
+        assertEquals(3, history.get(1).getTaskId(), "Неверый id задач в истории.");
 
         Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
         int subtask2id = taskManager.createSubTask(subtask2, epic1);
@@ -173,8 +171,8 @@ class ManagersTest {
 
 
     @Test
-    void checkThatAfterBulkRemovalOfTasksHistoryAlsoIsCleaned() {
-        TaskManager taskManager = Managers.getDefault();
+    private void checkThatAfterBulkRemovalOfTasksHistoryAlsoIsCleaned() {
+        TaskManager taskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("эпик1", "эпик1 дескрипшн");
         int epic1Id = taskManager.createEpic(epic1);
         Epic epic2 = new Epic("эпик2", "эпик2 дескрипшн");

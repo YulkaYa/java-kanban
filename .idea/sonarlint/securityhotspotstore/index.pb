@@ -43,3 +43,19 @@ Y
 )test/manager/InMemoryTaskManagerTest.java,c\4\c4d5f626665ebd025f6078635fa98c0ba97ad336
 N
 test/service/ManagersTest.java,8\7\871dad73e95c593f5a7b0956d1bb8ed92b6fc1cf
+O
+.github/workflows/api-tests.yml,8\5\85fa0541a58069946f71da1c414786e4fc2a8ca9
+V
+&src/manager/FileBackedTaskManager.java,b\1\b17764e4210f59ca78947af66953d6e6a432e7e1
+Q
+!src/manager/CSVTaskFormatter.java,a\a\aad4a32e3a715150bf4753c555e21d7a8120e3f7
+H
+src/enums/TaskTypes.java,3\b\3b25442de5e68d8e3fca3970a5b75d78a2c824c9
+X
+(src/exceptions/ManagerSaveException.java,7\d\7d3210902b716832cae33861d0284eef901a4491
+G
+src/resources/tasks.csv,c\2\c2ff60fe1c71246ac8e6418fd111e1bf95e65898
+Q
+!src/service/CSVTaskFormatter.java,4\d\4d6d70d3522d58cc1b3bc54fa42e8aa043399424
+[
++test/manager/FileBackedTaskManagerTest.java,1\4\14389555cd835c7f7d0f9ec5b25f764a27b89a9f
