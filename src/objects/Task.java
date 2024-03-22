@@ -2,18 +2,39 @@ package objects;
 
 import enums.TaskStatus;
 import enums.TaskTypes;
+import service.Managers;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
+    protected Duration duration;
+    protected LocalDateTime startTime;
     private int taskId;
     private String name;
     private String description;
     private TaskStatus status = TaskStatus.NEW;
+    protected LocalDateTime endTime;
 
-    public Task(String name, String description) {
+    public Task(String name, String description, LocalDateTime startTime, long duration) {
         this.name = name;
         this.description = description;
+        this.startTime = startTime;
+        this.duration = Duration.ofMinutes(duration);
+        this.endTime = this.startTime.plus(this.getDuration());
+    }
+
+    public LocalDateTime getStartTime() {
+        return this.startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    public Duration getDuration() {
+        return this.duration;
     }
 
     public String getName() {
@@ -40,12 +61,8 @@ public class Task {
         this.status = status;
     }
 
-    public void setStatusFromString(String status) {
-        for (TaskStatus statusEnum : TaskStatus.values()) {
-            if (statusEnum.name().equals(status)) {
-                this.setStatus(statusEnum);
-            }
-        }
+    public void setStatusFromString(String statusToSet) {
+        this.setStatus(TaskStatus.valueOf(statusToSet));
     }
 
     // Получаем тип задачи в enum
@@ -64,13 +81,17 @@ public class Task {
         this.taskId = taskId;
     }
 
+
     public String toStringWithoutFieldNames() {
-        return String.format("%n%s,%s,%s,%s,%s,",
+        return String.format("%n%s, %s, %s, %s, %s, %s, %s, %s",
                 this.getTaskId(),
                 this.getTaskType().getName(),
                 this.getName(),
                 this.getStatus(),
-                this.getDescription());
+                this.getDescription(),
+                this.getStartTime().format(Managers.formatter),
+                this.getDuration().toMinutes(),
+                this.getEndTime().format(Managers.formatter));
     }
 
     @Override
@@ -88,13 +109,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return "\n " +
-                this.getTaskType().getName() +
-                "{" +
-                "id=" + this.taskId +
-                ", name=" + this.name + " " +
-                ", description=" + this.description + " " +
-                ", status=" + this.status +
-                '}';
+        return String.format("%n%s: %s, %s, %s, %s, %s, %s, %s, ",
+                this.getTaskType().getName(),
+                "id=" + this.taskId,
+                "name=" + this.getName(),
+                "description=" + this.description,
+                "status=" + this.getStatus(),
+                "StartTime=" + this.getStartTime().format(Managers.formatter),
+                "Duration=" + this.getDuration().toMinutes(),
+                "EndTime=" + this.getEndTime().format(Managers.formatter));
     }
 }

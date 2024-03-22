@@ -23,15 +23,16 @@ Repository for homework project.
 | service      | CSVTaskFormatter.java                                    | класс хранит методы для обработки csv файла с задачами                                           |
 | history      | HistoryManager.java                                      | Интерфейс менеджеров истории просмотров задач                                                    |
 | history      | InMemoryHistoryManager.java                              | Реализация HistoryManager - хранение истории просмотров в оперативной памяти                     |
-| test.manager | InMemoryTaskManagerTest.java                             | Данные и тесты для проверки работы менеджера задач                                               |
-| test.manager | FileBackedTaskManagerTest.java.                          | Данные и тесты для проверки работы c файлами менеджера задач (если файл заранее сгенерирован)    |
+| test.manager | TaskManagerTest.java                           | Тесты на все методы из TaskManager                                                               |
+| test.manager | InMemoryTaskManagerTest.java                             | Создание инстанса  InMemoryTaskManager для каждого метода из TaskManagerTest.java                                 |
+| test.manager | FileBackedTaskManagerTest.java.                          | Создание инстанса  FileBackedTaskManager для каждого метода из TaskManagerTest.java     |
+| test.manager | FileBackedTaskManagerTestWithLoadingFile.java                           | Данные и тесты для проверки работы c файлами менеджера задач (если файл заранее сгенерирован)                                            |
 | test.manager | fileBackedTaskManagerTestWithoutLoadingFileAtStart.java. | Данные и тесты для проверки работы c файлами менеджера задач (если файл заранее НЕ сгенерирован) |
 | test.service | ManagersTest.java                                        | Данные и тесты для проверки менеджера истории                                                    |
-| test         | TestDataAndMethods.java                                  | Данные и тесты для проверки проекта (для запуска вручную)                                        |
 | enum         | TaskStatus.java                                          | список статусов задач                                                                            |
 | enum         | TaskTypes.java                                           | список типов задач                                                                               |
 | exceptions   | ManagerSaveException.java                                | исключение, генерируемое при обработке файловым менеджером                                       |
-| resources         |                                               | папка resources для сохранения и загрузки файла с задачами                                                                         |
+| resources         |                                               | папка resources для сохранения и загрузки файла с задачами                                       |
 
 ### Автор:
 Юлия А.

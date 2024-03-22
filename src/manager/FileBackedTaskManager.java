@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +30,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static FileBackedTaskManager loadFromFile(File file) throws ManagerSaveException {
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
+        FileBackedTaskManager fileBackedTaskManager;
         try {
+            fileBackedTaskManager = new FileBackedTaskManager(file);
             String fileToString = Files.readString(file.toPath());
             String[] tasksAndHistory = fileToString.split("\n");
             int indexOfHistory = 0; // Поле хранит индекс строки, с которой начинаются строки с историей
@@ -62,23 +62,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         break;
                     }
                     default: {
-                        throw new ManagerSaveException("Ошибка в методе taskFromString");
+                        throw new ManagerSaveException("Ошибка в методе loadFromFile" + ". Итерация =" + i + " " +
+                                taskToAdd);
                     }
                 }
             }
 
             // Восстанавливаем историю из оставшейся части списка строк
-            if (tasksAndHistory.length - indexOfHistory != 0) {
+            if (indexOfHistory != 0 && tasksAndHistory.length != indexOfHistory) {
                 String[] history = Arrays.copyOfRange(tasksAndHistory, indexOfHistory + 1,
                         tasksAndHistory.length);
                 List<Task> historyFromCSV = CSVTaskFormatter.historyFromString(history);
                 historyFromCSV.forEach(fileBackedTaskManager.historyManager::add);
             }
-            fileBackedTaskManager.generateTaskIdAfterLoad(); // Устанавливаем taskId = максимальному ID из всех мап
-
+            fileBackedTaskManager.setTaskId();
             return fileBackedTaskManager;
-        } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка в  методе loadFromFile");
+        } catch (IOException | NullPointerException e) {
+            throw new ManagerSaveException("Ошибка в  методе loadFromFile" + e.getMessage());
         }
     }
 
@@ -174,7 +174,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return task;
     }
 
-    public void save() throws ManagerSaveException {
+    protected void save() throws ManagerSaveException {
         try (Writer fileWriter = new FileWriter(fileName)) {
             String allInfoInCSVFormat = CSVTaskFormatter.tasksAndHistoryToString(mapOfTasksInFile, mapOfSubtasksInFile, mapOfEpicsInFile,
                     historyManager);
@@ -182,32 +182,5 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException ioException) {
             throw new ManagerSaveException("Ошибка в методе save");
         }
-    }
-
-    // Метод для генерации taskId начиная с уже существующего максимального значения
-    private void generateTaskIdAfterLoad() {
-        int maxId = 0;
-        int maxIdInMap = 0;
-        if (!mapOfEpicsInFile.isEmpty()) {
-            maxIdInMap = Collections.max(mapOfEpicsInFile.keySet());
-            if (maxId < maxIdInMap) {
-                maxId = maxIdInMap;
-            }
-        }
-
-        if (!mapOfSubtasksInFile.isEmpty()) {
-            maxIdInMap = Collections.max(mapOfSubtasksInFile.keySet());
-            if (maxId < maxIdInMap) {
-                maxId = maxIdInMap;
-            }
-        }
-
-        if (!mapOfTasksInFile.isEmpty()) {
-            maxIdInMap = Collections.max(mapOfTasksInFile.keySet());
-            if (maxId < maxIdInMap) {
-                maxId = maxIdInMap;
-            }
-        }
-        setTaskId(maxId);
     }
 }

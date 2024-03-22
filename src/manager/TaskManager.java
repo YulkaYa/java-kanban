@@ -5,9 +5,9 @@ import objects.Subtask;
 import objects.Task;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
-
     /*    d. Создание. Сам объект должен передаваться в качестве параметра.
             с типом Task*/
     int createTask(Task task);
@@ -71,4 +71,7 @@ public interface TaskManager {
 
     // Метод для получения истории просмотров задач
     List<Task> getHistory();
+
+    // Метод для полкчения списка задач, приоритезированных по времени выполнения
+    Set<Task> getPrioritizedTasks();
 }

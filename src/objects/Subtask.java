@@ -1,10 +1,14 @@
 package objects;
 
+import service.Managers;
+
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private int epicId;
 
-    public Subtask(String name, String description) {
-        super(name, description);
+    public Subtask(String name, String description, LocalDateTime startTime, long duration) {
+        super(name, description, startTime, duration);
     }
 
     public int getEpicId() {
@@ -17,21 +21,22 @@ public class Subtask extends Task {
 
     @Override
     public String toStringWithoutFieldNames() {
-        String subtask = super.toStringWithoutFieldNames();
-        subtask += this.getEpicId();
-        return subtask;
+        return String.format("%n%s, %s, %s, %s, %s, %s, %s, %s, %s",
+                this.getTaskId(),
+                this.getTaskType().getName(),
+                this.getName(),
+                this.getStatus(),
+                this.getDescription(),
+                this.getEpicId(),
+                this.getStartTime().format(Managers.formatter),
+                this.getDuration().toMinutes(),
+                this.getEndTime().format(Managers.formatter));
     }
 
     @Override
     public String toString() {
-        return "\n " +
-                this.getTaskType().getName() +
-                "{" +
-                "id=" + this.getTaskId() +
-                ", epicId=" + this.getEpicId() +
-                ", name=" + this.getName() + " " +
-                ", description=" + this.getDescription() + " " +
-                ", status=" + this.getStatus() +
-                '}';
+        return String.format("%s, %s, ",
+                super.toString(),
+                "epicId=" + this.getEpicId());
     }
 }
