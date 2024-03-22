@@ -14,17 +14,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileBackedTaskManagerTestWithLoadingFile {
-    LocalDateTime start;
-    long durationForNextTask;
-    long duration;
+    private LocalDateTime start;
+    private long durationForNextTask;
+    private long duration;
     private File tempFile;
 
     @BeforeEach
@@ -102,9 +102,9 @@ class FileBackedTaskManagerTestWithLoadingFile {
     @Test
     protected void loadFromFileIfFileIsCorrect() {
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
-        HashMap<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
-        HashMap<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
-        HashMap<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
+        Map<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
+        Map<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
+        Map<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
         List<Task> history = fileBackedTaskManager.getHistory();
         // Проверим, что размеры мап и истории совпадают со списком из файла
         assertEquals(4, tasks.size());
@@ -148,9 +148,9 @@ class FileBackedTaskManagerTestWithLoadingFile {
         fileBackedTaskManager.getTaskById(epicId);
         fileBackedTaskManager.getTaskById(subtaskId);
         fileBackedTaskManager.getTaskById(taskId);
-        HashMap<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
-        HashMap<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
-        HashMap<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
+        Map<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
+        Map<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
+        Map<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
         List<Task> history = fileBackedTaskManager.getHistory();
         Set<Task> prioritizedTasks = fileBackedTaskManager.getPrioritizedTasks();
         // Проверим, что размеры мап и истории совпадают со списком из файла

@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
+    private int taskId;
     protected Duration duration;
     protected LocalDateTime startTime;
-    private int taskId;
     private String name;
     private String description;
     private TaskStatus status = TaskStatus.NEW;

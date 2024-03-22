@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ManagersTest {
-    LocalDateTime start = LocalDateTime.parse("23:12:13 23.12.2009", Managers.formatter);
-    long durationForNextTask = 20;
-    long duration = 5;
+    private LocalDateTime start = LocalDateTime.parse("23:12:13 23.12.2009", Managers.formatter);
+    private long durationForNextTask = 20;
+    private long duration = 5;
 
     // убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     @Test
@@ -57,7 +57,6 @@ class ManagersTest {
         Task task1 = new Task("таск1", "таск1 дескрипшн",
                 start.plusMinutes(durationForNextTask += 20), duration);
         task1.setTaskId(3);
-
 
         historyManager.add(epic1);
         historyManager.add(subtask1);

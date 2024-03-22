@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,9 +23,9 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
     protected void fileBackedTaskManagerTestCorrectInitializationOfManagersFromEmptyFile() throws IOException {
         File tempFile = File.createTempFile("test", ".csv");
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
-        HashMap<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
-        HashMap<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
-        HashMap<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
+        Map<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
+        Map<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
+        Map<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
         HistoryManager historyManager = fileBackedTaskManager.getHistoryManager();
         assertEquals(true, tasks.isEmpty());
         assertEquals(true, subtasks.isEmpty());
@@ -108,9 +109,9 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
         fileBackedTaskManager.getAllEpics();
         FileBackedTaskManager fileBackedTaskManagerToCheckSavedFile = FileBackedTaskManager.loadFromFile(fileToSave);
 
-        HashMap<Integer, Task> tasks = fileBackedTaskManagerToCheckSavedFile.getMapOfTasks();
-        HashMap<Integer, Epic> epics = fileBackedTaskManagerToCheckSavedFile.getMapOfEpics();
-        HashMap<Integer, Subtask> subtasks = fileBackedTaskManagerToCheckSavedFile.getMapOfSubtasks();
+        Map<Integer, Task> tasks = fileBackedTaskManagerToCheckSavedFile.getMapOfTasks();
+        Map<Integer, Epic> epics = fileBackedTaskManagerToCheckSavedFile.getMapOfEpics();
+        Map<Integer, Subtask> subtasks = fileBackedTaskManagerToCheckSavedFile.getMapOfSubtasks();
         List<Task> history = fileBackedTaskManagerToCheckSavedFile.getHistory();
         // Проверим, что размеры мап и истории совпадают со списком из файла
         assertEquals(4, tasks.size());

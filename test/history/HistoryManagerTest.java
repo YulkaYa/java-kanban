@@ -14,9 +14,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HistoryManagerTest {
-    LocalDateTime start = LocalDateTime.parse("20:10:10 23.12.2009", Managers.formatter);
-    long durationForNextTask = 20;
-    long duration = 5;
+    private LocalDateTime start = LocalDateTime.parse("20:10:10 23.12.2009", Managers.formatter);
+    private long durationForNextTask = 20;
+    private long duration = 5;
 
     @Test
     protected void checkThatRemovedTasksDontStoredInHistory() {

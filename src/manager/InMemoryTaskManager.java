@@ -13,9 +13,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> mapOfTasks = new HashMap<>();
-    private final HashMap<Integer, Subtask> mapOfSubtasks = new HashMap<>();
-    private final HashMap<Integer, Epic> mapOfEpics = new HashMap<>();
+    private final Map<Integer, Task> mapOfTasks = new HashMap<>();
+    private final Map<Integer, Subtask> mapOfSubtasks = new HashMap<>();
+    private final Map<Integer, Epic> mapOfEpics = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private final Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     private int taskId = 0;
@@ -48,15 +48,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // Методы для получения мап с задачами без изменения истории просмотра
-    protected HashMap<Integer, Epic> getMapOfEpics() {
+    protected Map<Integer, Epic> getMapOfEpics() {
         return mapOfEpics;
     }
 
-    protected HashMap<Integer, Task> getMapOfTasks() {
+    protected Map<Integer, Task> getMapOfTasks() {
         return mapOfTasks;
     }
 
-    protected HashMap<Integer, Subtask> getMapOfSubtasks() {
+    protected Map<Integer, Subtask> getMapOfSubtasks() {
         return mapOfSubtasks;
     }
 
