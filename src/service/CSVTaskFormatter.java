@@ -6,7 +6,9 @@ import objects.Epic;
 import objects.Subtask;
 import objects.Task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,8 +23,8 @@ public class CSVTaskFormatter {
     // Метод возвращает в строчном формате содержимое всех мап с задачами и историю задач
     public static String tasksAndHistoryToString(Map<Integer, Task> tasks, Map<Integer,
             Subtask> subtasks, Map<Integer, Epic> epics, HistoryManager historyManager) {
-
-        StringBuilder builder = new StringBuilder("id,type,name,status,description,epic,subtasks");
+        StringBuilder builder = new StringBuilder("id, type, name, status, description, epic, subtasks, " +
+                "starttime, duration, endtime");
         tasks.values().forEach(t -> builder.append(taskToString(t))); // Добавили все таски в StringBuilder
         epics.values().forEach(e -> builder.append(taskToString(e))); // Добавили все эпики в StringBuilder
         subtasks.values().forEach(s -> builder.append(taskToString(s))); // Добавили сабтаски в StringBuilder
@@ -44,7 +46,7 @@ public class CSVTaskFormatter {
             // Делим строку на 2 части, 1я-общая инфа от задаче, 2я-сабтаски эпика(если есть).2ю часть далее отбрасываем
             // т.к. восстанавливать сабтаски будем на основе epicId  в самих сабтасках
             String[] stringsToCreateTask = value.split("\\[");
-            String[] splittedFields = stringsToCreateTask[0].split(",");
+            String[] splittedFields = stringsToCreateTask[0].split(", ");
 
             String typeInUpperCase = splittedFields[1];
             Task taskToReturn = null;
@@ -54,22 +56,33 @@ public class CSVTaskFormatter {
                     break;
                 }
                 case ("TASK"): {
-                    taskToReturn = new Task(splittedFields[2], splittedFields[4]);
+                    taskToReturn = new Task(
+                            splittedFields[2],
+                            splittedFields[4],
+                            LocalDateTime.parse(splittedFields[5], Managers.formatter),
+                            Long.parseLong(splittedFields[6])
+                    );
                     break;
                 }
                 case ("SUBTASK"): {
-                    taskToReturn = new Subtask(splittedFields[2], splittedFields[4]);
+                    taskToReturn = new Subtask(
+                            splittedFields[2],
+                            splittedFields[4],
+                            LocalDateTime.parse(splittedFields[6], Managers.formatter),
+                            Long.parseLong(splittedFields[7])
+                    );
                     ((Subtask) taskToReturn).setEpicId(Integer.parseInt(splittedFields[5]));
                     break;
                 }
                 default:
-                    throw new ManagerSaveException("Ошибка в методе taskFromString");
+                    throw new ManagerSaveException("Ошибка в методе taskFromString. " + "Тип = " + typeInUpperCase +
+                            "Строка = " + Arrays.toString(stringsToCreateTask));
             }
             taskToReturn.setTaskId(Integer.parseInt(splittedFields[0]));
             taskToReturn.setStatusFromString(splittedFields[3]);
             return taskToReturn;
         } catch (Exception e) {
-            throw new ManagerSaveException("Ошибка в методе taskFromString");
+            throw new ManagerSaveException("Ошибка в методе taskFromString. " + "value = " + value);
         }
     }
 

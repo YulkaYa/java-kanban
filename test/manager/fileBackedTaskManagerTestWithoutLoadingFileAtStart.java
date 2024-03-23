@@ -6,23 +6,25 @@ import objects.Epic;
 import objects.Subtask;
 import objects.Task;
 import org.junit.jupiter.api.Test;
+import service.Managers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
     @Test
-        // Проверка загрузки и сохранения пустого файла и что все менеджеры проинициализированы корректно
-    private void fileBackedTaskManagerTestCorrectInitializationOfManagersFromEmptyFile() throws IOException {
+    // Проверка загрузки и сохранения пустого файла и что все менеджеры проинициализированы корректно
+    protected void fileBackedTaskManagerTestCorrectInitializationOfManagersFromEmptyFile() throws IOException {
         File tempFile = File.createTempFile("test", ".csv");
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
-        HashMap<Integer,Task> tasks = fileBackedTaskManager.getMapOfTasks();
-        HashMap<Integer,Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
-        HashMap<Integer,Epic> epics = fileBackedTaskManager.getMapOfEpics();
+        Map<Integer, Task> tasks = fileBackedTaskManager.getMapOfTasks();
+        Map<Integer, Subtask> subtasks = fileBackedTaskManager.getMapOfSubtasks();
+        Map<Integer, Epic> epics = fileBackedTaskManager.getMapOfEpics();
         HistoryManager historyManager = fileBackedTaskManager.getHistoryManager();
         assertEquals(true, tasks.isEmpty());
         assertEquals(true, subtasks.isEmpty());
@@ -32,7 +34,7 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
 
     // Проверка сохранения пустого менеджера в файл
     @Test
-    private void fileBackedTaskManagerTestWithoutLoadingFileAtStart() {
+    protected void fileBackedTaskManagerTestWithoutLoadingFileAtStart() {
         File tempFile = null;
         tempFile = new File("src/resources/tempFile.csv");
         try {
@@ -46,7 +48,7 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
     }
 
     @Test
-    private void createTasksAndCheckFile() throws IOException {
+    protected void createTasksAndCheckFile() throws IOException {
         File fileToSave = File.createTempFile("test", ".csv");
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(fileToSave);
 
@@ -59,15 +61,27 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
         int epic3Id = fileBackedTaskManager.createEpic(epic3);
         int epic4Id = fileBackedTaskManager.createEpic(epic4);
 
-        Subtask subtask1 = new Subtask("сабтаск1", "сабтаск1 для экпика1");
-        Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1");
+        LocalDateTime start = LocalDateTime.parse("23:12:13 23.12.2009", Managers.formatter);
+        long durationForNextTask = 20;
+        final LocalDateTime startWithDuration = start.plusMinutes(durationForNextTask += 20);
+        long duration = 5;
+        Subtask subtask1 = new Subtask("сабтаск1", "сабтаск1 для экпика1",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Subtask subtask2 = new Subtask("сабтаск2", "сабтаск2 для экпика1",
+                start.plusMinutes(durationForNextTask += 20), duration);
         subtask2.setStatus(TaskStatus.IN_PROGRESS);
-        Subtask subtask3 = new Subtask("сабтаск3", "сабтаск3 для экпика1");
-        Subtask subtask4 = new Subtask("сабтаск4", "сабтаск4 для экпика1");
-        Subtask subtask5 = new Subtask("сабтаск5", "сабтаск5 для экпика2");
-        Subtask subtask6 = new Subtask("сабтаск6", "сабтаск6 для экпика2");
-        Subtask subtask7 = new Subtask("сабтаск7", "сабтаск7 для экпика2");
-        Subtask subtask8 = new Subtask("сабтаск8", "сабтаск8 для экпика2");
+        Subtask subtask3 = new Subtask("сабтаск3", "сабтаск3 для экпика1",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Subtask subtask4 = new Subtask("сабтаск4", "сабтаск4 для экпика1",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Subtask subtask5 = new Subtask("сабтаск5", "сабтаск5 для экпика2",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Subtask subtask6 = new Subtask("сабтаск6", "сабтаск6 для экпика2",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Subtask subtask7 = new Subtask("сабтаск7", "сабтаск7 для экпика2",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Subtask subtask8 = new Subtask("сабтаск8", "сабтаск8 для экпика2",
+                start.plusMinutes(durationForNextTask += 20), duration);
         int subtask1id = fileBackedTaskManager.createSubTask(subtask1, epic1);
         int subtask2id = fileBackedTaskManager.createSubTask(subtask2, epic1);
         int subtask3id = fileBackedTaskManager.createSubTask(subtask3, epic1);
@@ -76,10 +90,14 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
         int subtask6id = fileBackedTaskManager.createSubTask(subtask6, epic2);
         int subtask7id = fileBackedTaskManager.createSubTask(subtask7, epic2);
 
-        Task task1 = new Task("таск1", "таск1 дескрипшн");
-        Task task2 = new Task("таск2", "таск2 дескрипшн");
-        Task task3 = new Task("таск3", "таск3 дескрипшн");
-        Task task4 = new Task("таск4", "таск4 дескрипшн");
+        Task task1 = new Task("таск1", "таск1 дескрипшн",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Task task2 = new Task("таск2", "таск2 дескрипшн",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Task task3 = new Task("таск3", "таск3 дескрипшн",
+                start.plusMinutes(durationForNextTask += 20), duration);
+        Task task4 = new Task("таск4", "таск4 дескрипшн",
+                start.plusMinutes(durationForNextTask += 20), duration);
         int task1id = fileBackedTaskManager.createTask(task1);
         int task2id = fileBackedTaskManager.createTask(task2);
         int task3id = fileBackedTaskManager.createTask(task3);
@@ -90,9 +108,9 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
         fileBackedTaskManager.getAllEpics();
         FileBackedTaskManager fileBackedTaskManagerToCheckSavedFile = FileBackedTaskManager.loadFromFile(fileToSave);
 
-        HashMap<Integer, Task> tasks = fileBackedTaskManagerToCheckSavedFile.getMapOfTasks();
-        HashMap<Integer, Epic> epics = fileBackedTaskManagerToCheckSavedFile.getMapOfEpics();
-        HashMap<Integer, Subtask> subtasks = fileBackedTaskManagerToCheckSavedFile.getMapOfSubtasks();
+        Map<Integer, Task> tasks = fileBackedTaskManagerToCheckSavedFile.getMapOfTasks();
+        Map<Integer, Epic> epics = fileBackedTaskManagerToCheckSavedFile.getMapOfEpics();
+        Map<Integer, Subtask> subtasks = fileBackedTaskManagerToCheckSavedFile.getMapOfSubtasks();
         List<Task> history = fileBackedTaskManagerToCheckSavedFile.getHistory();
         // Проверим, что размеры мап и истории совпадают со списком из файла
         assertEquals(4, tasks.size());
@@ -117,5 +135,4 @@ class fileBackedTaskManagerTestWithoutLoadingFileAtStart {
         assertEquals(1, subtasks.get(5).getEpicId());
         assertEquals(15, fileBackedTaskManager.getTaskId());
     }
-
 }
